@@ -7,9 +7,12 @@ create-kf-app is a tool to accelerate and simplify ML app development on Kuberne
 
 **NOTE**: please use the latest go to do this, ideally go 1.12.7 or greater.
 
+Install
+-------
+`git clone https://github.com/CiscoAI/create-kf-app`
 `export GO111MODULE=on`
-
-Do a manual installation by cloning the repo and run `make build` from the repository.
+`cd create-kf-app`
+`make build`
 
 To use create-kf-app, you will need to:
 
