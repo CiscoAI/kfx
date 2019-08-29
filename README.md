@@ -16,7 +16,16 @@ To use create-kf-app, you will need to:
 * install docker
 * install kubectl
 
-Once you have docker running you can create a cluster with `create-kf-app init --name kf-kind`  
+Usage
+-----
+Once you have docker and kubectl you can create a cluster with Kubeflow by,
+
+```bash
+opsys=macos # linux
+cd bin/
+chmod +x ./create-kf-app-${opsys}
+./create-kf-app init --name kf-kind
+```
 
 **TODO**: To delete your cluster use `create-kf-app delete cluster --name kf-kind`
 
