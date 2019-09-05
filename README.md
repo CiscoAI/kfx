@@ -5,10 +5,26 @@ create-kf-app is a tool to accelerate and simplify ML app development on Kuberne
 
 ## Installation and usage
 
+Download the binaries from the release.
+🚀 Local ML development with Kubeflow.
+
+If you have Docker and kubectl installed on your machine, you are 💯 to go
+
+Download the latest release.
+Unpack the tarball.
+Add the binary to your $PATH.
+```bash
+    tar -zvxf create-kf-app-<platform>.tar.gz
+    export PATH=$PATH:"<path to kfctl>"
+    create-kf-app-<platform> init --name kf
+```
+And you're ready to Kubeflow !
+
+Install from Source
+-------------------
+
 **NOTE**: please use the latest go to do this, ideally go 1.12.7 or greater.
 
-Install
--------
 
 ```bash
 git clone https://github.com/CiscoAI/create-kf-app
