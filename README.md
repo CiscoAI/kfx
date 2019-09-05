@@ -20,6 +20,8 @@ Add the binary to your $PATH.
 ```
 And you're ready to Kubeflow !
 
+To delete your cluster use `create-kf-app delete cluster --name kf`
+
 Install from Source
 -------------------
 
@@ -46,10 +48,10 @@ Once you have docker and kubectl you can create a cluster with Kubeflow by,
 opsys=macos # linux
 cd bin/
 chmod +x ./create-kf-app-${opsys}
-./create-kf-app init --name kf-kind
+./create-kf-app init --name kf
 ```
 
-**TODO**: To delete your cluster use `create-kf-app delete cluster --name kf-kind`
+To delete your cluster use `create-kf-app delete cluster --name kf`
 
 Current maintainers are [@swiftdiaries](github.com/swiftdiaries) - feel free to reach out if you have any questions!
 
