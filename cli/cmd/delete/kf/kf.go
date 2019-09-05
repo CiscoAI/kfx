@@ -12,29 +12,28 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package delete
+package kf
 
 import (
-	"github.com/CiscoAI/create-kf-app/cli/cmd/delete/cluster"
-	"github.com/CiscoAI/create-kf-app/cli/cmd/delete/kf"
+	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 )
 
-// ClusterName denotes the name of the KinD cluster to be deleted
-var ClusterName string
+// ConfigFilePath fetches the config that was used to install Kubeflow
+var ConfigFilePath string
 
 // NewCommand returns a new cobra.Command for version
 func NewCommand() *cobra.Command {
 	cmd := &cobra.Command{
 		Args:  cobra.NoArgs,
-		Use:   "delete",
-		Short: "Deletes the kf application created",
-		Long:  "Deletes the KF application created but keeps the cluster. To delete the cluster, 'create-kf-app delete cluster'",
+		Use:   "kf",
+		Short: "Deletes Kubeflow app in cluster",
+		Long:  "To delete Kubeflow, 'create-kf-app delete kf'",
 		RunE: func(cmd *cobra.Command, args []string) error {
+			log.Printf("Deleting Kubeflow.")
 			return nil
 		},
 	}
-	cmd.AddCommand(cluster.NewCommand())
-	cmd.AddCommand(kf.NewCommand())
+	cmd.Flags().StringVar(&ConfigFilePath, "config", "", "Config file used in installation.")
 	return cmd
 }

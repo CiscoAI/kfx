@@ -3,11 +3,34 @@ module github.com/CiscoAI/create-kf-app
 go 1.12
 
 require (
+	cloud.google.com/go v0.44.3 // indirect
+	github.com/alecthomas/template v0.0.0-20190718012654-fb15b899a751 // indirect
+	github.com/alecthomas/units v0.0.0-20190717042225-c3de453c63f4 // indirect
+	github.com/go-bindata/go-bindata v3.1.2+incompatible // indirect
+	github.com/gobuffalo/logger v1.0.1 // indirect
+	github.com/gobuffalo/packr v1.30.1 // indirect
+	github.com/gobuffalo/packr/v2 v2.6.0 // indirect
+	github.com/gogo/protobuf v1.3.0 // indirect
+	github.com/google/go-cmp v0.3.1 // indirect
 	github.com/hashicorp/go-getter v1.0.2
+	github.com/hashicorp/golang-lru v0.5.3 // indirect
+	github.com/json-iterator/go v1.1.7 // indirect
 	github.com/kubeflow/kubeflow/bootstrap/v3 v3.0.0-20190822211122-06b4cb4ba871
 	github.com/pkg/errors v0.8.1
-	github.com/sirupsen/logrus v1.4.1
-	github.com/spf13/cobra v0.0.3
+	github.com/prometheus/common v0.6.0 // indirect
+	github.com/rogpeppe/go-internal v1.3.1 // indirect
+	github.com/sirupsen/logrus v1.4.2
+	github.com/spf13/cobra v0.0.5
+	github.com/stretchr/testify v1.4.0 // indirect
+	go.uber.org/atomic v1.4.0 // indirect
+	go.uber.org/zap v1.10.0 // indirect
+	golang.org/x/net v0.0.0-20190827160401-ba9fcec4b297 // indirect
+	golang.org/x/sys v0.0.0-20190904005037-43c01164e931 // indirect
+	google.golang.org/api v0.9.0 // indirect
+	google.golang.org/appengine v1.6.2 // indirect
+	google.golang.org/genproto v0.0.0-20190819201941-24fa4b261c55 // indirect
+	google.golang.org/grpc v1.23.0 // indirect
+	gopkg.in/check.v1 v1.0.0-20190902080502-41f04d3bba15 // indirect
 	k8s.io/api v0.0.0-20190409021203-6e4e0e4f393b
 	k8s.io/apimachinery v0.0.0-20190404173353-6a84e37a896d
 	k8s.io/client-go v11.0.0+incompatible
@@ -15,6 +38,7 @@ require (
 )
 
 replace (
+	git.apache.org/thrift.git => github.com/apache/thrift v0.0.0-20180902110319-2566ecd5d999
 	github.com/Azure/go-autorest => github.com/Azure/go-autorest v9.1.0+incompatible
 	github.com/Sirupsen/logrus => github.com/sirupsen/logrus v1.0.5
 	github.com/go-openapi/jsonpointer => github.com/go-openapi/jsonpointer v0.17.0

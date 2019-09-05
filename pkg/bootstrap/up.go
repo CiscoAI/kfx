@@ -2,9 +2,10 @@ package bootstrap
 
 import (
 	"errors"
+	"io/ioutil"
 	"os"
-	"path/filepath"
 
+	"github.com/CiscoAI/create-kf-app/pkg/manifests"
 	kftypes "github.com/kubeflow/kubeflow/bootstrap/v3/pkg/apis/apps"
 	kfdefsv3 "github.com/kubeflow/kubeflow/bootstrap/v3/pkg/apis/apps/kfdef/v1alpha1"
 	"github.com/kubeflow/kubeflow/bootstrap/v3/pkg/kfapp/coordinator"
@@ -28,17 +29,21 @@ func InstallKubeflow(clusterName string) {
 // KindKfApply borrows code from github.com/kubeflow/bootstrap to start the Kubeflow install process
 func KindKfApply(appName string) error {
 	log.Println("Kubeflow init...")
-	cwd, err := os.Getwd()
-	if err != nil {
-		log.Printf("Error getting current working directory: %v", err)
-	}
-	parentwd := filepath.Dir(cwd)
 	// Get config from static file
-	configFile := parentwd + "/manifests/kfctl_k8s_kind.yaml"
+	configFile, err := manifests.Asset("manifests/kfctl_k8s_kind.yaml")
+	if err != nil {
+		log.Errorln("Error loading KfDef for Kubeflow")
+		return err
+	}
+	err = ioutil.WriteFile("/tmp/kind-config.yaml", configFile, 0700)
+	if err != nil {
+		return err
+	}
+	configFilePath := "/tmp/kind-config.yaml"
 
 	// Create a kf-app config with the app name from CLI and internal config
 	kfDef := &kfdefsv3.KfDef{}
-	kfDef, err = kfdefsv3.LoadKFDefFromURI(configFile)
+	kfDef, err = kfdefsv3.LoadKFDefFromURI(configFilePath)
 	if err != nil {
 		log.Printf("Unable to create KfDef from config file: %v", err)
 	}
