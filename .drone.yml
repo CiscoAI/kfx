@@ -1,0 +1,55 @@
+kind: pipeline
+name: test
+
+platform:
+  os: linux
+  arch: amd64
+
+workspace:
+  base: /go
+  path: src/github.com/CiscoAI/create-kf-app
+
+steps:
+  - name: fetch
+    image: docker:git
+    commands:
+      - git fetch --tags
+    when:
+      event:
+      - tag
+  - name: backend
+    image: golang:1.12.7
+    environment:
+      GO111MODULE: on
+    commands:
+      - make go-install
+      - make build
+      - docker version
+    volumes:
+      - name: dockersock
+        path: /var/run
+  - name: test
+    image: docker:stable
+    environment:
+      CLUSTER_HOST: docker
+      CLUSTER_NAME: kf-test
+      OPSYS: linux
+    commands:
+      - ls
+    depends_on:
+    - backend
+    volumes:
+      - name: dockersock
+        path: /var/run
+
+services:
+- name: docker
+  image: docker:dind
+  privileged: true
+  volumes:
+  - name: dockersock
+    path: /var/run
+
+volumes:
+- name: dockersock
+  temp: {}

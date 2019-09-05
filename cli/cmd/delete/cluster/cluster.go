@@ -12,11 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package delete
+package cluster
 
 import (
-	"github.com/CiscoAI/create-kf-app/cli/cmd/delete/cluster"
-	"github.com/CiscoAI/create-kf-app/cli/cmd/delete/kf"
+	"github.com/CiscoAI/create-kf-app/pkg/kind"
+	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 )
 
@@ -27,14 +27,18 @@ var ClusterName string
 func NewCommand() *cobra.Command {
 	cmd := &cobra.Command{
 		Args:  cobra.NoArgs,
-		Use:   "delete",
-		Short: "Deletes the kf application created",
-		Long:  "Deletes the KF application created but keeps the cluster. To delete the cluster, 'create-kf-app delete cluster'",
+		Use:   "cluster",
+		Short: "Deletes KinD cluster",
+		Long:  "To delete the cluster, 'create-kf-app delete cluster'",
 		RunE: func(cmd *cobra.Command, args []string) error {
+			log.Printf("Deleting cluster: %v", ClusterName)
+			err := kind.DeleteKindCluster(ClusterName)
+			if err != nil {
+				return err
+			}
 			return nil
 		},
 	}
-	cmd.AddCommand(cluster.NewCommand())
-	cmd.AddCommand(kf.NewCommand())
+	cmd.Flags().StringVar(&ClusterName, "name", "kf-kind", "Cluster Name")
 	return cmd
 }

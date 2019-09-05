@@ -1,7 +1,7 @@
 # This is the config to install Kubeflow on an existing development k8s cluster with containerd
 # This installs a minimum set of components required for model development - a single notebook instance, Pipelines
 # This does not install Istio
-# This also turns off usage reporting by default, to volunteer install the Spartakus application
+# This also turns off usage reporting by default
 apiVersion: kfdef.apps.kubeflow.org/v1alpha1
 kind: KfDef
 metadata:

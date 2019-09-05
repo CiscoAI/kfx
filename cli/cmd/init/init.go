@@ -55,11 +55,12 @@ func runE(flags *flagpole, cmd *cobra.Command, args []string) error {
 	// CreateKinDCluster with a default config
 	err := kind.CreateKindCluster(clusterName)
 	if err != nil {
-		log.Println("Error creating KinD cluster from config", err)
+		log.Error("Error creating cluster")
+		return err
 	}
 	kindKubeconfig, err := kind.CheckClusterStatus(clusterName)
 	if err != nil {
-		log.Printf("Error fetching kubeconfig for local cluster: %v", err)
+		return err
 	}
 	log.Printf("Cluster kubeconfig: %s", kindKubeconfig)
 	// Set Kubeconfig to created cluster

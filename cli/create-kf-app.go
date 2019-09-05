@@ -17,6 +17,7 @@ package main
 import (
 	"os"
 
+	"github.com/CiscoAI/create-kf-app/cli/cmd/delete"
 	initialize "github.com/CiscoAI/create-kf-app/cli/cmd/init"
 	"github.com/CiscoAI/create-kf-app/cli/cmd/version"
 	log "github.com/sirupsen/logrus"
@@ -49,6 +50,7 @@ func NewCommand() *cobra.Command {
 	}
 	cmd.AddCommand(initialize.NewCommand())
 	cmd.AddCommand(version.NewCommand())
+	cmd.AddCommand(delete.NewCommand())
 	return cmd
 }
 

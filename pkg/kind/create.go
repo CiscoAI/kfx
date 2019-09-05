@@ -1,8 +1,10 @@
 package kind
 
 import (
+	"io/ioutil"
 	"time"
 
+	"github.com/CiscoAI/create-kf-app/pkg/manifests"
 	kfutil "github.com/CiscoAI/create-kf-app/pkg/util"
 	"github.com/pkg/errors"
 	log "github.com/sirupsen/logrus"
@@ -38,16 +40,26 @@ func CreateKindCluster(ClusterName string) error {
 	ctx := cluster.NewContext(ClusterName)
 	KubeconfigPath := ctx.KubeConfigPath()
 	log.Printf("Creating KinD cluster with the kubeconfig placed at: %s", KubeconfigPath)
-	err = ctx.Validate()
-
 	// Set Config for cluster
 	// TODO: re-write to use a static config file or generate the config on the fly.
 	// MUSTDO: really, re-write this part.
-	cfg, err := encoding.Load("../manifests/kind-config.yaml")
+	configFileBytes, err := manifests.Asset("manifests/kind-config.yaml")
+	if err != nil {
+		return err
+	}
+	err = ioutil.WriteFile("/tmp/kind-config.yaml", configFileBytes, 0700)
+	if err != nil {
+		return err
+	}
+	configFilePath := "/tmp/kind-config.yaml"
+	log.Printf("Config File Path is %v", configFilePath)
+	if err != nil {
+		return err
+	}
+	cfg, err := encoding.Load(configFilePath)
 	if err != nil {
 		return errors.Wrap(err, "error loading config")
 	}
-
 	err = cfg.Validate()
 	if err != nil {
 		log.Error("Invalid configuration")
@@ -57,7 +69,6 @@ func CreateKindCluster(ClusterName string) error {
 		}
 		return errors.New("aborting due to invalid configuration")
 	}
-
 	imageName := "kindest/node:v1.15.0@sha256:b4d092fd2b507843dd096fe6c85d06a27a0cbd740a0b32a880fe61aba24bb478"
 
 	for node := range cfg.Nodes {
@@ -96,7 +107,7 @@ func CheckClusterStatus(ClusterName string) (string, error) {
 		return "", err
 	}
 	if known {
-		log.Println("Cluster clready exists")
+		log.Println("Cluster already exists")
 	}
 	clusterContext := cluster.NewContext(ClusterName)
 	return clusterContext.KubeConfigPath(), nil
@@ -104,7 +115,7 @@ func CheckClusterStatus(ClusterName string) (string, error) {
 
 // IsClusterReady iterates through the nodes and checks if the cluster is ready
 func IsClusterReady(ClusterName string) bool {
-	time.Sleep(time.Duration(45) * time.Second)
+	time.Sleep(time.Duration(15) * time.Second)
 
 	var nodes []*v1.Node
 	clusterKubeConfig, err := CheckClusterStatus(ClusterName)
@@ -164,10 +175,24 @@ func ReplaceStorageClass(ClusterClient *kubernetes.Clientset) error {
 	log.Printf("StorageClass %v found!", className)
 	err = ClusterClient.StorageV1().StorageClasses().Delete("standard", &metav1.DeleteOptions{})
 	if err != nil {
-		log.Printf("Error deleting Storage Class %v", StorageClass.Name)
-		return err
+		log.Printf("Error deleting Storage Class: %v, error: %v", StorageClass.Name, err)
 	}
 	log.Printf("StorageClass %v deleted!", className)
-	kfutil.RunShellScript("../manifests/apply-storageclass.sh")
+
+	scScript, err := manifests.Asset("manifests/apply-storageclass.sh")
+	if err != nil {
+		log.Errorln("error fetching storageclass apply script")
+		return err
+	}
+	err = ioutil.WriteFile("/tmp/apply-storageclass.sh", scScript, 0700)
+
+	scManifest, err := manifests.Asset("manifests/local-path-storage.yaml")
+	if err != nil {
+		log.Errorln("error fetching storageclass manifest")
+		return err
+	}
+	err = ioutil.WriteFile("/tmp/local-path-storage.yaml", scManifest, 0700)
+
+	kfutil.RunShellScript("/tmp/apply-storageclass.sh")
 	return nil
 }
