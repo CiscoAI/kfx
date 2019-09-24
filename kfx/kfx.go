@@ -19,6 +19,7 @@ import (
 
 	"github.com/CiscoAI/create-kf-app/kfx/cmd/build"
 	"github.com/CiscoAI/create-kf-app/kfx/cmd/create"
+	"github.com/CiscoAI/create-kf-app/kfx/cmd/delete"
 	"github.com/CiscoAI/create-kf-app/kfx/cmd/install"
 	"github.com/CiscoAI/create-kf-app/kfx/cmd/run"
 	"github.com/CiscoAI/create-kf-app/kfx/cmd/ui"
@@ -52,10 +53,11 @@ func NewCommand() *cobra.Command {
 		Version:      version.Version,
 	}
 	cmd.AddCommand(create.NewCommand())
+	cmd.AddCommand(delete.NewCommand())
 	cmd.AddCommand(install.NewCommand())
 	cmd.AddCommand(build.NewCommand())
 	cmd.AddCommand(run.NewCommand())
-	cmd.AddCommand(ui.NewCommand())	
+	cmd.AddCommand(ui.NewCommand())
 	cmd.AddCommand(version.NewCommand())
 	return cmd
 }

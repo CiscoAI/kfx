@@ -23,5 +23,7 @@ clean:
 tar:
 	tar -vzcf ${GOPATH}/src/github.com/CiscoAI/create-kf-app/bin/create-kf-app-linux.tar.gz ${GOPATH}/src/github.com/CiscoAI/create-kf-app/bin/create-kf-app-linux
 	tar -vzcf ${GOPATH}/src/github.com/CiscoAI/create-kf-app/bin/create-kf-app-darwin.tar.gz ${GOPATH}/src/github.com/CiscoAI/create-kf-app/bin/create-kf-app-darwin
+	tar -zvcf ${GOPATH}/src/github.com/CiscoAI/create-kf-app/bin/kfx-linux.tar.gz ${GOPATH}/src/github.com/CiscoAI/create-kf-app/bin/kfx-linux
+	tar -zvcf ${GOPATH}/src/github.com/CiscoAI/create-kf-app/bin/kfx-darwin.tar.gz ${GOPATH}/src/github.com/CiscoAI/create-kf-app/bin/kfx-darwin
 release: tar
 	
