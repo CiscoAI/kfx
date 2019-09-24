@@ -15,10 +15,12 @@
 package mla
 
 import (
+	"fmt"
+
+	"github.com/CiscoAI/create-kf-app/pkg/bootstrap"
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 )
-
 
 // NewCommand returns a new cobra.Command for version
 func NewCommand() *cobra.Command {
@@ -36,5 +38,9 @@ func NewCommand() *cobra.Command {
 
 func runE(cmd *cobra.Command, args []string) error {
 	log.Infof("Launching MLAnywhere UI..")
+	err := bootstrap.MLAPortForwardShell()
+	if err != nil {
+		return fmt.Errorf("error connecting to UI: %v", err)
+	}
 	return nil
 }

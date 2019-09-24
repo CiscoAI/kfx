@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: mlanywhere-svc
+  name: mlanywhere
   labels:
-    app: mlanywhere-svc
+    app: mlanywhere
 spec:
   type: NodePort
   ports:
