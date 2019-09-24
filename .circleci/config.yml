@@ -1,8 +1,8 @@
 version: 2
 jobs:
   build:
-    docker:
-      - image: ubuntu:18.04
+    machine:
+      enabled: true
     steps:
     - run: |
         mkdir -p /tmp/test-results
