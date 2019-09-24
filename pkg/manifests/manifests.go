@@ -1,9 +1,11 @@
 // Code generated for package manifests by go-bindata DO NOT EDIT. (@generated)
 // sources:
 // manifests/apply-storageclass.sh
+// manifests/create-mla.sh
 // manifests/kfctl_k8s_kind.yaml
 // manifests/kind-config.yaml
 // manifests/local-path-storage.yaml
+// manifests/mlanywhere-all-in-one.yaml
 package manifests
 
 import (
@@ -95,7 +97,27 @@ func manifestsApplyStorageclassSh() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "manifests/apply-storageclass.sh", size: 177, mode: os.FileMode(420), modTime: time.Unix(1567645456, 0)}
+	info := bindataFileInfo{name: "manifests/apply-storageclass.sh", size: 177, mode: os.FileMode(420), modTime: time.Unix(1567652189, 0)}
+	a := &asset{bytes: bytes, info: info}
+	return a, nil
+}
+
+var _manifestsCreateMlaSh = []byte("\x1f\x8b\x08\x00\x00\x00\x00\x00\x00\xff\x7c\x8c\x3b\x0e\x42\x31\x0c\xc0\xf6\x77\x8a\x20\xe6\x90\x33\xa5\x25\x15\x88\xfc\x44\x5b\xa1\xdc\x1e\xb1\xc0\xc6\x6a\x5b\x3e\x9f\xa8\xdd\x9d\x1a\xcf\xdb\x71\x3c\x76\x93\xbe\x14\xfa\x53\x78\x09\xf8\x84\x0f\x19\x1a\xaf\x3f\x0a\xd9\xc3\xcb\x62\xcf\x6f\xc4\x99\x5a\x80\x03\x68\x59\x92\x29\xe3\x55\x52\xa3\x2e\xc5\xa6\x80\xfe\xdb\xbe\x03\x00\x00\xff\xff\x41\x45\x0b\x2e\x7f\x00\x00\x00")
+
+func manifestsCreateMlaShBytes() ([]byte, error) {
+	return bindataRead(
+		_manifestsCreateMlaSh,
+		"manifests/create-mla.sh",
+	)
+}
+
+func manifestsCreateMlaSh() (*asset, error) {
+	bytes, err := manifestsCreateMlaShBytes()
+	if err != nil {
+		return nil, err
+	}
+
+	info := bindataFileInfo{name: "manifests/create-mla.sh", size: 127, mode: os.FileMode(420), modTime: time.Unix(1569019711, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -115,7 +137,7 @@ func manifestsKfctl_k8s_kindYaml() (*asset, error) {
 		return nil, err
 	}
 
-	info := bindataFileInfo{name: "manifests/kfctl_k8s_kind.yaml", size: 3184, mode: os.FileMode(420), modTime: time.Unix(1567487587, 0)}
+	info := bindataFileInfo{name: "manifests/kfctl_k8s_kind.yaml", size: 3184, mode: os.FileMode(420), modTime: time.Unix(1567652189, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -156,6 +178,26 @@ func manifestsLocalPathStorageYaml() (*asset, error) {
 	}
 
 	info := bindataFileInfo{name: "manifests/local-path-storage.yaml", size: 2562, mode: os.FileMode(420), modTime: time.Unix(1566626351, 0)}
+	a := &asset{bytes: bytes, info: info}
+	return a, nil
+}
+
+var _manifestsMlanywhereAllInOneYaml = []byte("\x1f\x8b\x08\x00\x00\x00\x00\x00\x00\xff\xac\x53\x4d\x8f\xd3\x30\x10\xbd\xfb\x57\x8c\xba\xd7\x4d\xea\xb0\xe2\xcb\x57\xb8\x70\x59\x45\x2c\xe5\x8a\xa6\xee\x6c\x6b\x61\x7b\x2c\x7b\x1a\x9a\x7f\x8f\xdc\x92\xa4\xb0\x85\x13\x73\x1a\xbd\x79\x7e\x9e\xf7\x2c\x63\x72\x5f\x29\x17\xc7\xd1\xc0\xd0\xa9\xef\x2e\xee\x0c\x3c\x51\x1e\x9c\x25\x15\x48\x70\x87\x82\x46\x01\x44\x0c\x64\x20\x78\x8c\xe3\x8f\x03\x65\x6a\xca\x60\x15\x80\xc7\x2d\xf9\x52\x09\x00\x98\xd2\x0b\x46\x49\x64\xeb\x54\xc6\x44\x06\x1e\x79\x47\x3d\x67\x51\x00\x89\xb3\x9c\xcf\x35\xe7\xd6\xc0\x6b\xad\xf5\x59\x26\xfe\x22\x19\x78\xd0\x5a\x3f\x9c\xb1\x94\x59\xd8\xb2\x37\xf0\xe5\x43\xaf\x00\x0a\x79\xb2\xc2\xf9\xe6\xc5\x4a\x35\x4d\xa3\xd4\xb5\x35\x3a\x09\xc5\xda\x96\xf5\xd0\x6d\x49\x70\xb2\xfa\x91\x92\xe7\x31\x50\x94\x7f\xba\x9d\x7d\x14\xc9\x28\xb4\x1f\x2f\x17\x67\xf6\xde\xc5\xfd\x26\xed\x50\xe8\x02\x01\x04\x3c\x3d\x1d\xf3\x9e\x0c\x74\x0b\xb2\x89\x38\xa0\xf3\xb8\xf5\x33\x7e\x89\xe4\xf3\xb5\x84\x02\xc8\x94\xbc\xb3\x58\x2e\x2c\xa1\x90\xfc\xac\x7d\xbd\x61\xad\xeb\xf0\x6f\xe5\x50\xb1\x69\xf1\x5a\x96\xa3\xa0\x8b\x94\xe7\x33\xcd\x4b\xa7\x93\x98\x0b\x58\x3d\x58\x57\x2c\xa3\x5b\x2f\x0c\xd3\xb5\x5a\xfd\x4e\xeb\x8f\xde\xf7\xec\x9d\x1d\x0d\xac\x3e\x3d\x3f\xb2\xf4\x99\x0a\x45\x59\xcd\xbc\xb9\xb9\x83\x4d\xb4\x1c\x6a\xe4\xe0\x9e\xe1\x58\x5c\xdc\x03\xd6\x17\x3e\x8d\x0b\x89\xe2\xb0\xf8\xba\x9b\xd6\x3c\x88\xa4\xf2\xed\x0f\x2a\xc0\x80\xfe\x48\x06\x56\x75\x6c\xd6\xeb\xf3\xbc\x0d\xa3\xe5\x90\x30\x8e\xad\xe5\x60\xde\xe9\xd5\x6d\xb9\xff\xa7\x16\xf9\xef\x5a\x9e\x2d\xfa\x03\x17\xb9\xef\x5e\xbd\x6d\x75\xab\xdb\xee\xbe\xd3\xed\xfb\x37\xb5\x5b\x2d\x69\xce\xbf\x62\xaa\x66\x79\xb4\x7e\xf9\x26\x3f\x03\x00\x00\xff\xff\x73\x94\xbb\x13\xb6\x03\x00\x00")
+
+func manifestsMlanywhereAllInOneYamlBytes() ([]byte, error) {
+	return bindataRead(
+		_manifestsMlanywhereAllInOneYaml,
+		"manifests/mlanywhere-all-in-one.yaml",
+	)
+}
+
+func manifestsMlanywhereAllInOneYaml() (*asset, error) {
+	bytes, err := manifestsMlanywhereAllInOneYamlBytes()
+	if err != nil {
+		return nil, err
+	}
+
+	info := bindataFileInfo{name: "manifests/mlanywhere-all-in-one.yaml", size: 950, mode: os.FileMode(420), modTime: time.Unix(1569019952, 0)}
 	a := &asset{bytes: bytes, info: info}
 	return a, nil
 }
@@ -212,10 +254,12 @@ func AssetNames() []string {
 
 // _bindata is a table, holding each asset generator, mapped to its name.
 var _bindata = map[string]func() (*asset, error){
-	"manifests/apply-storageclass.sh":   manifestsApplyStorageclassSh,
-	"manifests/kfctl_k8s_kind.yaml":     manifestsKfctl_k8s_kindYaml,
-	"manifests/kind-config.yaml":        manifestsKindConfigYaml,
-	"manifests/local-path-storage.yaml": manifestsLocalPathStorageYaml,
+	"manifests/apply-storageclass.sh":      manifestsApplyStorageclassSh,
+	"manifests/create-mla.sh":              manifestsCreateMlaSh,
+	"manifests/kfctl_k8s_kind.yaml":        manifestsKfctl_k8s_kindYaml,
+	"manifests/kind-config.yaml":           manifestsKindConfigYaml,
+	"manifests/local-path-storage.yaml":    manifestsLocalPathStorageYaml,
+	"manifests/mlanywhere-all-in-one.yaml": manifestsMlanywhereAllInOneYaml,
 }
 
 // AssetDir returns the file names below a certain
@@ -260,10 +304,12 @@ type bintree struct {
 
 var _bintree = &bintree{nil, map[string]*bintree{
 	"manifests": &bintree{nil, map[string]*bintree{
-		"apply-storageclass.sh":   &bintree{manifestsApplyStorageclassSh, map[string]*bintree{}},
-		"kfctl_k8s_kind.yaml":     &bintree{manifestsKfctl_k8s_kindYaml, map[string]*bintree{}},
-		"kind-config.yaml":        &bintree{manifestsKindConfigYaml, map[string]*bintree{}},
-		"local-path-storage.yaml": &bintree{manifestsLocalPathStorageYaml, map[string]*bintree{}},
+		"apply-storageclass.sh":      &bintree{manifestsApplyStorageclassSh, map[string]*bintree{}},
+		"create-mla.sh":              &bintree{manifestsCreateMlaSh, map[string]*bintree{}},
+		"kfctl_k8s_kind.yaml":        &bintree{manifestsKfctl_k8s_kindYaml, map[string]*bintree{}},
+		"kind-config.yaml":           &bintree{manifestsKindConfigYaml, map[string]*bintree{}},
+		"local-path-storage.yaml":    &bintree{manifestsLocalPathStorageYaml, map[string]*bintree{}},
+		"mlanywhere-all-in-one.yaml": &bintree{manifestsMlanywhereAllInOneYaml, map[string]*bintree{}},
 	}},
 }}
 

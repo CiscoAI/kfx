@@ -13,9 +13,9 @@ const Version = "v0.1-alpha"
 func NewCommand() *cobra.Command {
 	cmd := &cobra.Command{
 		Args:  cobra.NoArgs,
-		Use:   "version",
-		Short: "prints the create-kf-app CLI version",
-		Long:  "prints the create-kf-app CLI version",
+		Use:   "run",
+		Short: "runs the kf-app",
+		Long:  "runs the kf-app",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			fmt.Println(Version)
 			return nil

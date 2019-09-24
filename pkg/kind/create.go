@@ -95,6 +95,17 @@ func CreateKindCluster(ClusterName string) error {
 		}
 		return errors.Wrap(err, "failed to create cluster")
 	}
+	
+	if !IsClusterReady(ClusterName) {
+		return errors.New("Error replacing StorageClass")
+	}
+
+	return nil
+}
+
+// LoadDockerImages for faster setup
+func LoadDockerImages(clusterName string) error {
+	
 	return nil
 }
 

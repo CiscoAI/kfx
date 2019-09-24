@@ -1,0 +1,17 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: ubuntu:18.04
+    steps:
+    - run: |
+        mkdir -p /tmp/test-results
+        mkdir -p /tmp/_circleci_local_build_repo/.
+    - checkout
+    - run: ls -lah /
+
+workflows:
+  version: 2
+  workflow:
+    jobs:
+    - build

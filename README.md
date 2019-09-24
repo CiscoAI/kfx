@@ -1,9 +1,19 @@
-### create-kf-app
-----------------
+# cello
 
-create-kf-app is a tool to accelerate and simplify ML app development on Kubernetes.
+create-kf-app is a tool to package ML apps for Kubernetes.
+
+## What is create-kf-app?
+
+- Micro-PaaS for ML on Kubernetes.
+- A tool to structure and organize your Kubeflow apps.
+- Internally, it uses [KinD](#whykind) to create a k8s cluster on your local machine.
 
 ## Installation and usage
+
+To use create-kf-app, you will need to:
+
+- install docker
+- install kubectl
 
 Download the binaries from the release.
 
@@ -25,42 +35,14 @@ And you're ready to Kubeflow !
 
 To delete your cluster use `create-kf-app delete cluster --name kf`
 
-Install from Source
--------------------
+## Questions / Feedback
 
-**NOTE**: please use the latest go to do this, ideally go 1.12.7 or greater.
+Current maintainer [@swiftdiaries](github.com/swiftdiaries) - feel free to reach out if you have any questions or talk Kubeflow on-prem!
 
-```bash
-git clone https://github.com/CiscoAI/create-kf-app
-export GO111MODULE=on
-cd create-kf-app
-make build
-```
+## <a name="whykind"></a>Why kind?
 
-To use create-kf-app, you will need to:
-
-* install docker
-* install kubectl
-
-Usage
------
-Once you have docker and kubectl you can create a cluster with Kubeflow by,
-
-```bash
-opsys=macos # linux
-cd bin/
-chmod +x ./create-kf-app-${opsys}
-./create-kf-app init --name kf
-```
-
-To delete your cluster use `create-kf-app delete cluster --name kf`
-
-Current maintainers are [@swiftdiaries](github.com/swiftdiaries) - feel free to reach out if you have any questions!
-
-## Why kind?
-
+- Super light-weight clusters for local development and CI.
 - kind supports multi-node (including HA) clusters
-- kind is written in go, can be used as a library, has stable releases
 - kind supports Windows in addition to MacOS and Linux
 - kind is a [CNCF certified conformant Kubernetes installer](https://landscape.cncf.io/selected=kind)
 
@@ -68,11 +50,12 @@ Current maintainers are [@swiftdiaries](github.com/swiftdiaries) - feel free to 
 
 Some other open source projects with slightly different but overlapping use cases, features etc.
 
-- https://www.arrikto.com/minikf/
-- https://github.com/bsycorp/kind
-- https://github.com/ubuntu/microk8s
-- https://github.com/kinvolk/kube-spawn
-- https://github.com/kubernetes/minikube
-- https://github.com/danderson/virtuakube
-- https://github.com/kubernetes-sigs/kubeadm-dind-cluster
+- [MiniKF](https://www.arrikto.com/minikf/)
+- [Bsycorp kind](https://github.com/bsycorp/kind)
+- [microk8s](https://github.com/ubuntu/microk8s)
+- [kube-spawn](https://github.com/kinvolk/kube-spawn)
+- [minikube](https://github.com/kubernetes/minikube)
+- [virtualkube](https://github.com/danderson/virtuakube)
+- [kubeadm-dind](https://github.com/kubernetes-sigs/kubeadm-dind-cluster)
 
+Among this, `miniKF` gives you a Kubeflow ready cluster on top of Minikube.

@@ -1,7 +1,6 @@
 package bootstrap
 
 import (
-	"errors"
 	"io/ioutil"
 	"os"
 
@@ -12,22 +11,26 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
+// the config file for v0.6.
+// Needs to be changed out manually for updating each release.
+var configFilePath = "https://raw.githubusercontent.com/kubeflow/kubeflow/v0.6-branch/bootstrap/config/kfctl_k8s_istio.0.6.2.yaml"
+
+const gauntletFile = "MLGauntlet"
+const gitIgnoreFileContents = "secrets/"
+
 // InstallKubeflow connects to the Kubeflow coordinator to bootstrap and install Kubeflow on KinD
-func InstallKubeflow(clusterName string) {
-	// // Create a project directory
-	//err := CreateAppDir(clusterName)
-	// if err != nil {
-	// 	log.Printf("Erroe creating project directory: %v", err)
-	// }
+func InstallKubeflow(clusterName string, size string) error {
 	// Initialize a Kubeflow application
-	err := KindKfApply(clusterName)
+	err := KindKfApply(clusterName, size)
 	if err != nil {
 		log.Printf("Error creating a kubeflow app: %v", err)
+		return err
 	}
+	return nil
 }
 
 // KindKfApply borrows code from github.com/kubeflow/bootstrap to start the Kubeflow install process
-func KindKfApply(appName string) error {
+func KindKfApply(appName string, size string) error {
 	log.Println("Kubeflow init...")
 	// Get config from static file
 	configFile, err := manifests.Asset("manifests/kfctl_k8s_kind.yaml")
@@ -39,28 +42,20 @@ func KindKfApply(appName string) error {
 	if err != nil {
 		return err
 	}
-	configFilePath := "/tmp/kind-config.yaml"
+	if size == "small" {
+		configFilePath = "/tmp/kind-config.yaml"
+	}
 
 	// Create a kf-app config with the app name from CLI and internal config
-	kfDef := &kfdefsv3.KfDef{}
-	kfDef, err = kfdefsv3.LoadKFDefFromURI(configFilePath)
+	kfDef, err := kfdefsv3.LoadKFDefFromURI(configFilePath)
 	if err != nil {
 		log.Printf("Unable to create KfDef from config file: %v", err)
 	}
 	if kfDef.Name != "" {
 		log.Warnf("Overriding KfDef.Spec.Name; old value %v; new value %v", kfDef.Name, appName)
 	}
-	kfDef.Name = appName
-	isValid, msg := kfDef.IsValid()
-	if !isValid {
-		log.Printf("Invalid kfdef: %v", isValid)
-		log.Printf("Error validating generated KfDef, please check config file validity: %v", msg)
-	}
 	kfDef.Spec.AppDir = CreateAppDir(appName)
-	if kfDef.Spec.AppDir == "" {
-		return errors.New("kfDef App Dir not set")
-	}
-	log.Warnf("App directory name: %v", kfDef.Spec.AppDir)
+	log.Infof("App directory name: %v", kfDef.Spec.AppDir)
 	cfgFilePath, err := coordinator.CreateKfAppCfgFile(kfDef)
 	if err != nil {
 		return err
@@ -96,6 +91,7 @@ func KindKfApply(appName string) error {
 	applyErr := KfApp.Apply(kfResource)
 	if applyErr != nil {
 		log.Println("Unable to apply resources for KfApp", applyErr)
+		return applyErr
 	}
 	return nil
 }
@@ -106,11 +102,12 @@ func CreateAppDir(appName string) string {
 	if err != nil {
 		log.Printf("Error getting current working directory: %v", err)
 	}
-	appdirErr := CreateDirFromURI(cwd + "/" + appName)
+	destinationPath := cwd + "/" + appName + "/"
+	appdirErr := CreateDirFromURI(destinationPath)
 	if appdirErr != nil {
 		return ""
 	}
-	return cwd + "/" + appName
+	return destinationPath
 }
 
 // CreateDirFromURI is common utility function to create a directory given a path
@@ -137,20 +134,107 @@ func CreateProjectStructure(appName string) bool {
 	if os.IsNotExist(err) {
 		_ = CreateAppDir(appName)
 	}
-	err = CreateDirFromURI(appDir + "/components/data-download")
-	err = CreateDirFromURI(appDir + "/components/train")
-	err = CreateDirFromURI(appDir + "/components/tensorboard")
-	err = CreateDirFromURI(appDir + "/components/serving")
-	err = CreateDirFromURI(appDir + "/components/inference")
+	err = CreateDirFromURI(appDir + "/secrets")
+	err = CreateFile(appDir + "/.gitignore")
+	if err != nil {
+		log.Errorf("Error creating .gitignore: %v")
+		return false
+	}
+	err = WriteToFile(appDir+"/.gitignore", gitIgnoreFileContents)
+	if err != nil {
+		log.Errorf("Error writing to .gitignore")
+		return false
+	}
+	componentPath := "/app/components"
+	err = CreateDirFromURI(appDir + "/notebooks")
+	err = CreateDirFromURI(appDir + componentPath + "/data-download")
+	err = CreateDirFromURI(appDir + componentPath + "/train")
+	err = CreateDirFromURI(appDir + componentPath + "/tensorboard")
+	err = CreateDirFromURI(appDir + componentPath + "/serving")
+	err = CreateDirFromURI(appDir + componentPath + "/inference")
 	if err != nil {
 		log.Errorf("Error creating project directory: %v", err)
+		return false
+	}
+	err = CreateFile(appDir + "/" + gauntletFile)
+	if err != nil {
+		log.Errorf("Creating MLGauntlet file: %v", err)
 		return false
 	}
 	return true
 }
 
-// CreateDefaultNotebook uses the Kubeflow Notebook Controller to create an user notebook
-func CreateDefaultNotebook(appName string) bool {
+// WriteToFile writes a string to a file.
+// Used to write to gitignore
+func WriteToFile(filePath string, fileContent string) error {
+	file, err := os.OpenFile(filePath, os.O_RDWR, 0644)
+	if err != nil {
+		return err
+	}
+	defer file.Close()
 
-	return true
+	_, err = file.WriteString(fileContent)
+	if err != nil {
+		return err
+	}
+
+	err = file.Sync()
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
+
+// CreateFile bootstraps the ML app directory with a config file.
+func CreateFile(filePath string) error {
+	_, err := os.Stat(filePath)
+	// create file if not exists
+	if os.IsNotExist(err) {
+		file, err := os.Create(filePath)
+		if err != nil {
+			return err
+		}
+		defer file.Close()
+	}
+	return nil
+}
+
+func CreateSymlink(appDir string) error {
+
+	return nil
+}
+
+// CreateDefaultNotebook uses the Kubeflow Notebook Controller to create an user notebook
+func CreateDefaultNotebook(notebookName string) error {
+
+	// objectName := v1meta1.ObjectMeta{Name: notebookName}
+	// dynamicClient, _ := dynamic.NewForConfig(config)
+
+	return nil
+}
+
+// apiVersion: kubeflow.org/v1alpha1
+// kind: Notebook
+// metadata:
+//   name: default-workspace
+//   labels:
+//     app: default-notebook
+// spec:
+//   template:
+//     spec:
+//       serviceAccountName: jupyter-notebook
+//       containers:
+//         - name: default-workspace
+//           image: "notebook-image:tag"
+//           volumeMounts:
+//           - mountPath: /home/jovyan
+//             name: default-workspace
+//           resources:
+//             requests:
+//               cpu: "2.0"
+//               memory: "4.0Gi"
+//       volumes:
+//       - name: default-workspace
+//         persistentVolumeClaim:
+//           claimName: default-workspace

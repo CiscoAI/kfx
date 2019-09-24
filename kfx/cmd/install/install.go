@@ -12,11 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package cluster
+package install
 
 import (
-	"github.com/CiscoAI/create-kf-app/pkg/kind"
-	log "github.com/sirupsen/logrus"
+	"github.com/CiscoAI/create-kf-app/kfx/cmd/install/kf"
+	"github.com/CiscoAI/create-kf-app/kfx/cmd/install/mla"
 	"github.com/spf13/cobra"
 )
 
@@ -24,17 +24,14 @@ import (
 func NewCommand() *cobra.Command {
 	cmd := &cobra.Command{
 		Args:  cobra.NoArgs,
-		Use:   "cluster",
-		Short: "Deletes KinD cluster",
-		Long:  "To delete the cluster, 'create-kf-app delete cluster'",
+		Use:   "install",
+		Short: "Installs the kubeflow application",
+		Long:  "Installs the KF application",
 		RunE: func(cmd *cobra.Command, args []string) error {
-			log.Printf("Deleting cluster: kf-kind")
-			err := kind.DeleteKindCluster("kf-kind")
-			if err != nil {
-				return err
-			}
 			return nil
 		},
 	}
+	cmd.AddCommand(kf.NewCommand())
+	cmd.AddCommand(mla.NewCommand())
 	return cmd
 }

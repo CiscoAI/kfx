@@ -7,7 +7,7 @@ import (
 )
 
 // RunShellCommands is a utility function to run Kubectl Apply
-func RunShellCommands(filepath string) {
+func RunShellCommands(filepath string) error {
 	command := "bash"
 	args := []string{}
 	args = append(args, "kubectl apply -f")
@@ -18,7 +18,9 @@ func RunShellCommands(filepath string) {
 	err := cmd.Run()
 	if err != nil {
 		log.Printf("Shell command %s %v failed with %s\n", command, args, err)
+		return err
 	}
+	return nil
 }
 
 // RunShellScript is a utility fucntion used to run a shell script file

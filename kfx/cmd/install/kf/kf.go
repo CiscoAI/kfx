@@ -12,15 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package init
+package kf
 
 import (
 	"errors"
-	"os"
 
 	"github.com/CiscoAI/create-kf-app/pkg/bootstrap"
 	"github.com/CiscoAI/create-kf-app/pkg/fetch"
-	"github.com/CiscoAI/create-kf-app/pkg/kind"
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 )
@@ -31,14 +29,14 @@ type flagpole struct {
 	PipelineURI string
 }
 
-// NewCommand is for initializing a new instance with `create-kf-app init`
+// NewCommand returns a new cobra.Command for version
 func NewCommand() *cobra.Command {
 	flags := &flagpole{}
 	cmd := &cobra.Command{
 		Args:  cobra.NoArgs,
-		Use:   "init --name kf-app --pipeline github.com/CiscoAI/KFLab//pipelines/tf-mnist",
-		Short: "Initializes a ML application for development",
-		Long:  "Initialize an ML application with common steps for easier development",
+		Use:   "kf",
+		Short: "Installs a Kubeflow application on the cluster",
+		Long:  "To install to the cluster, 'kfx install kf'",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			return runE(flags, cmd, args)
 		},
@@ -54,7 +52,6 @@ func NewCommand() *cobra.Command {
 }
 
 func runE(flags *flagpole, cmd *cobra.Command, args []string) error {
-	log.Println("create-kf-app init...")
 	appName := flags.Name
 	pipelineURI := flags.PipelineURI
 
@@ -68,35 +65,19 @@ func runE(flags *flagpole, cmd *cobra.Command, args []string) error {
 		}
 		log.Infof("Created a shell project structure for ML app under %v/", appName)
 	} else {
-		fetch.GetPipeline(pipelineURI, appName)
+		err := fetch.GetPipeline(pipelineURI, appName)
+		if err != nil {
+			return err
+		}
 		log.Infof("Bootstrapped with project %v with pipeline %v", appName, pipelineURI)
 	}
-
-	// CreateKinDCluster with a default config
-	err := kind.CreateKindCluster("kf-kind")
+	appDir := appName + "/.gitops/kfctl"
+	err := bootstrap.InstallKubeflow(appDir, flags.Size)
 	if err != nil {
-		log.Error("Error creating cluster")
+		log.Errorf("%v", err)
 		return err
 	}
-	kindKubeconfig, err := kind.CheckClusterStatus("kf-kind")
-	if err != nil {
-		return err
-	}
-	log.Printf("Cluster kubeconfig: %s", kindKubeconfig)
 
-	// Set Kubeconfig to created cluster
-	os.Setenv("KUBECONFIG", kindKubeconfig)
-	// Check if created cluster is Ready
-	isReady := kind.IsClusterReady("kf-kind")
-
-	// if Ready install Kubeflow
-	if isReady {
-		err = bootstrap.InstallKubeflow(appName, flags.Size)
-		if err != nil {
-			log.Errorf("%v", err)
-		}
-		return err
-	}
 	log.Printf("Kubeflow Installed!")
 	return nil
 }

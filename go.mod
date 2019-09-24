@@ -4,8 +4,13 @@ go 1.12
 
 require (
 	cloud.google.com/go v0.44.3 // indirect
+	github.com/Microsoft/go-winio v0.4.14 // indirect
 	github.com/alecthomas/template v0.0.0-20190718012654-fb15b899a751 // indirect
 	github.com/alecthomas/units v0.0.0-20190717042225-c3de453c63f4 // indirect
+	github.com/docker/distribution v2.7.1+incompatible // indirect
+	github.com/docker/docker v1.13.1 // indirect
+	github.com/docker/go-connections v0.4.0 // indirect
+	github.com/docker/go-units v0.4.0 // indirect
 	github.com/go-bindata/go-bindata v3.1.2+incompatible // indirect
 	github.com/gobuffalo/logger v1.0.1 // indirect
 	github.com/gobuffalo/packr v1.30.1 // indirect
@@ -16,6 +21,8 @@ require (
 	github.com/hashicorp/golang-lru v0.5.3 // indirect
 	github.com/json-iterator/go v1.1.7 // indirect
 	github.com/kubeflow/kubeflow/bootstrap/v3 v3.0.0-20190822211122-06b4cb4ba871
+	github.com/kubeflow/kubeflow/components/notebook-controller v0.0.0-20190921042125-5d03cefe037f
+	github.com/opencontainers/go-digest v1.0.0-rc1 // indirect
 	github.com/pkg/errors v0.8.1
 	github.com/prometheus/common v0.6.0 // indirect
 	github.com/rogpeppe/go-internal v1.3.1 // indirect
@@ -33,7 +40,7 @@ require (
 	gopkg.in/check.v1 v1.0.0-20190902080502-41f04d3bba15 // indirect
 	k8s.io/api v0.0.0-20190409021203-6e4e0e4f393b
 	k8s.io/apimachinery v0.0.0-20190404173353-6a84e37a896d
-	k8s.io/client-go v11.0.0+incompatible
+	k8s.io/client-go v11.0.1-0.20190409021438-1a26190bd76a+incompatible
 	sigs.k8s.io/kind v0.5.1
 )
 

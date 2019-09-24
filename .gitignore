@@ -2,5 +2,4 @@ bin/
 vendor/
 .devcontainer/
 cli/.cache
-cli/kf-kind/
-kf-kind/
+cli/kf-*

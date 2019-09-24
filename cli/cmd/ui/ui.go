@@ -1,4 +1,4 @@
-package build
+package ui
 
 import (
 	"github.com/spf13/cobra"
@@ -8,9 +8,9 @@ import (
 func NewCommand() *cobra.Command {
 	cmd := &cobra.Command{
 		Args:  cobra.NoArgs,
-		Use:   "build",
-		Short: "builds the kf-app",
-		Long:  "builds the kf-app",
+		Use:   "ui",
+		Short: "Connects to the Kubeflow UI",
+		Long:  "Connects to the Kubeflow UI",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			return nil
 		},
