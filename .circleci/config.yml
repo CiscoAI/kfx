@@ -10,7 +10,7 @@ jobs:
     - checkout
     - run: 
         name: "Build kfx"
-        command: ./kind-smoketest.sh
+        command: ls
 
 workflows:
   version: 2
