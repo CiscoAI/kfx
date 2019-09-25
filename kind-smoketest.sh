@@ -27,6 +27,8 @@ install_latest_kind() {
     cd "${tmp_dir}" || exit
     git clone https://github.com/kubernetes-sigs/kind && cd ./kind
     make install INSTALL_DIR="${BIN_DIR}"
+    export PATH=${BIN_DIR}:${PATH}
+    cd -
 }
 
 # util to install a released kind version into ${BIN_DIR}
@@ -35,6 +37,7 @@ install_kind_release() {
     KIND_BINARY_URL="https://github.com/kubernetes-sigs/kind/releases/download/${VERSION}/kind-linux-amd64"
     wget -O "${KIND}" "${KIND_BINARY_URL}"
     chmod +x "${KIND}"
+    export PATH=${KIND}:${PATH}
 }
 
 install_kfx() {
@@ -50,7 +53,7 @@ install_kubectl() {
 
 main() {
     # get kind
-    install_latest_kind
+    install_kind_release
     install_kfx
     mv bin/kfx-linux kfx
     export PATH=kfx:${PATH}
