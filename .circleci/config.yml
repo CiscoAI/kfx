@@ -8,7 +8,9 @@ jobs:
         mkdir -p /tmp/test-results
         mkdir -p /tmp/_circleci_local_build_repo/.
     - checkout
-    - run: "Build kfx"
+    - run: 
+        name: "Build kfx"
+        command: ./kind-smoketest.sh
 
 workflows:
   version: 2

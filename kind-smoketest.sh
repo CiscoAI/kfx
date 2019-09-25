@@ -37,14 +37,31 @@ install_kind_release() {
     chmod +x "${KIND}"
 }
 
+install_kfx() {
+    make build
+}
+
+install_kubectl() {
+    # Install needed executables
+    wget https://storage.googleapis.com/kubernetes-release/release/v1.14.0/bin/linux/amd64/kubectl
+    chmod +x ./kubectl
+    export PATH=kubectl:${PATH}
+}
+
 main() {
     # get kind
     install_latest_kind
-    # create a cluster
-    "${KIND}" create cluster --loglevel=debug
-    # set KUBECONFIG to point to the cluster
-    KUBECONFIG="$("${KIND}" get kubeconfig-path)"
+    install_kfx
+    mv bin/kfx-linux kfx
+    export PATH=kfx:${PATH}
+    chmod +x kfx
+    kfx create cluster
+    kfx install mla
+    kfx install kf
+    KUBECONFIG="$("${KIND}" get kubeconfig-path --name "kf-kind")"
     export KUBECONFIG
+    kubectl get po -n kubeflow
+
     # TODO: invoke your tests here
     # teardown will happen automatically on exit
 }
