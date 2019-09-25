@@ -1,4 +1,4 @@
-# cello
+# create-kf-app
 
 create-kf-app is a tool to package ML apps for Kubernetes.
 
@@ -7,6 +7,10 @@ create-kf-app is a tool to package ML apps for Kubernetes.
 - Micro-PaaS for ML on Kubernetes.
 - A tool to structure and organize your Kubeflow apps.
 - Internally, it uses [KinD](#whykind) to create a k8s cluster on your local machine.
+
+### Presto
+
+A very, very fast way to use Kubeflow.
 
 ## Installation and usage
 
@@ -34,6 +38,27 @@ Add the binary to your $PATH.
 And you're ready to Kubeflow !
 
 To delete your cluster use `create-kf-app delete cluster --name kf`
+
+## kfx
+
+A more advanced user workflow for Kubeflow.
+
+Shares the same goals as the create-kf-app
+
+- Micro-PaaS for ML on Kubernetes.
+- A tool to structure and organize your Kubeflow apps.
+
+### Vivace
+
+A lively and fast way to use Kubeflow.
+
+## TODO: Prestissimo - A Jupyter Kernel for Kubeflow
+
+Note: *even faster than presto*
+
+This creates a Jupyter kernel with the default notebook that kfx installs to connect to a remote Kubernetes cluster.
+
+Reference: [Ciao from Caicloud](https://github.com/caicloud/ciao/blob/master/docs/design.md).
 
 ## Questions / Feedback
 
