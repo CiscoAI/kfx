@@ -28,7 +28,6 @@ require (
 	github.com/gobuffalo/packr v1.30.1 // indirect
 	github.com/gobuffalo/packr/v2 v2.6.0 // indirect
 	github.com/gogo/protobuf v1.3.0 // indirect
-	github.com/google/btree v1.0.0 // indirect
 	github.com/google/go-cmp v0.3.1 // indirect
 	github.com/google/pprof v0.0.0-20190908185732-236ed259b199 // indirect
 	github.com/googleapis/gnostic v0.3.1 // indirect
@@ -78,7 +77,6 @@ require (
 	k8s.io/klog v1.0.0 // indirect
 	k8s.io/kube-openapi v0.0.0-20190918143330-0270cf2f1c1d // indirect
 	k8s.io/utils v0.0.0-20190923111123-69764acb6e8e // indirect
-	rsc.io/binaryregexp v0.2.0 // indirect
 	sigs.k8s.io/controller-runtime v0.2.0 // indirect
 	sigs.k8s.io/controller-tools v0.2.0 // indirect
 	sigs.k8s.io/kind v0.5.1

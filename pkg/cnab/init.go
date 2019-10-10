@@ -1,9 +1,9 @@
-package duffle
+package cnab
 
-import "log"
+import log "github.com/sirupsen/logrus"
 
 // InitApp initializes a CNAB directory for the ML app
 func InitApp() bool {
-	log.Printf("InitApp called...")
+	log.Infof("InitApp called...")
 	return true
 }
