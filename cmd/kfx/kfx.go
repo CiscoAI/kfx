@@ -18,6 +18,7 @@ import (
 	"os"
 
 	"github.com/CiscoAI/kfx/cmd/kfx/build"
+	"github.com/CiscoAI/kfx/cmd/kfx/get"
 	"github.com/CiscoAI/kfx/cmd/kfx/create"
 	"github.com/CiscoAI/kfx/cmd/kfx/delete"
 	"github.com/CiscoAI/kfx/cmd/kfx/install"
@@ -54,6 +55,7 @@ func NewCommand() *cobra.Command {
 		Version:      version.Version,
 	}
 	cmd.AddCommand(create.NewCommand())
+	cmd.AddCommand(get.NewCommand())
 	cmd.AddCommand(delete.NewCommand())
 	cmd.AddCommand(install.NewCommand())
 	cmd.AddCommand(build.NewCommand())

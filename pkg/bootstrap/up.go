@@ -156,7 +156,14 @@ func CreateFile(filePath string) error {
 	return nil
 }
 
+// CreateSymlink for connecting local appDir to the Jupyter notebook
 func CreateSymlink(appDir string) error {
+
+	return nil
+}
+
+// CreateDefaultProfile uses the profile-controller to create a user-profile
+func CreateDefaultProfile() error {
 
 	return nil
 }
