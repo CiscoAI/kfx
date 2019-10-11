@@ -7,6 +7,7 @@ kfx is a productivity tool for Kubeflow on-premise.
 ## What is kfx?
 
 - A tool to perform common Kubeflow tasks from the CLI.
+- Opinionated way of using Kubeflow.
 - In-built [KinD](#whykind) support.
 
 ### kfx CLI - Presto
