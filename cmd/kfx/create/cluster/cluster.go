@@ -16,12 +16,11 @@ package cluster
 
 import (
 	"os"
-	
-	"github.com/CiscoAI/create-kf-app/pkg/kind"
+
+	"github.com/CiscoAI/kfx/pkg/kind"
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 )
-
 
 type flagpole struct {
 	Name        string
@@ -58,15 +57,15 @@ func runE(flags *flagpole, cmd *cobra.Command, args []string) error {
 		log.Error("Error creating cluster")
 		return err
 	}
+
 	kindKubeconfig, err := kind.CheckClusterStatus("kf-kind")
 	if err != nil {
 		return err
 	}
-	log.Printf("Cluster kubeconfig: %s", kindKubeconfig)
-
 	// Set Kubeconfig to created cluster
 	os.Setenv("KUBECONFIG", kindKubeconfig)
-	
+
+	log.Printf("Cluster kubeconfig: %s", kindKubeconfig)
 	log.Printf("KinD cluster Created!")
 	return nil
 }

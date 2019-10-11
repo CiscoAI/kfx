@@ -17,8 +17,8 @@ package mla
 import (
 	"io/ioutil"
 	
-	manifests "github.com/CiscoAI/create-kf-app/pkg/manifests"
-	ckfutil "github.com/CiscoAI/create-kf-app/pkg/util"
+	manifests "github.com/CiscoAI/kfx/pkg/manifests"
+	ckfutil "github.com/CiscoAI/kfx/pkg/util"
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 )

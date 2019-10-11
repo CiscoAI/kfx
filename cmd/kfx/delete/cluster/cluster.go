@@ -12,12 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package mla
+package cluster
 
 import (
-	"fmt"
-
-	"github.com/CiscoAI/create-kf-app/pkg/bootstrap"
+	"github.com/CiscoAI/kfx/pkg/kind"
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 )
@@ -26,21 +24,17 @@ import (
 func NewCommand() *cobra.Command {
 	cmd := &cobra.Command{
 		Args:  cobra.NoArgs,
-		Use:   "mla",
-		Short: "Launches the MLAnywhere UI",
-		Long:  "To launch the UI, 'kfx ui mla'",
+		Use:   "cluster",
+		Short: "Deletes KinD cluster",
+		Long:  "To delete the cluster, 'kfx delete cluster'",
 		RunE: func(cmd *cobra.Command, args []string) error {
-			return runE(cmd, args)
+			log.Printf("Deleting cluster: kf-kind")
+			err := kind.DeleteKindCluster("kf-kind")
+			if err != nil {
+				return err
+			}
+			return nil
 		},
 	}
 	return cmd
-}
-
-func runE(cmd *cobra.Command, args []string) error {
-	log.Infof("Launching MLAnywhere UI..")
-	err := bootstrap.MLAPortForwardShell()
-	if err != nil {
-		return fmt.Errorf("error connecting to UI: %v", err)
-	}
-	return nil
 }

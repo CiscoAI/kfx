@@ -1,27 +1,28 @@
 package bootstrap
 
 import (
-	"io/ioutil"
 	"os"
 
-	"github.com/CiscoAI/create-kf-app/pkg/manifests"
 	kftypes "github.com/kubeflow/kubeflow/bootstrap/v3/pkg/apis/apps"
-	kfdefsv3 "github.com/kubeflow/kubeflow/bootstrap/v3/pkg/apis/apps/kfdef/v1alpha1"
 	"github.com/kubeflow/kubeflow/bootstrap/v3/pkg/kfapp/coordinator"
 	log "github.com/sirupsen/logrus"
 )
 
 // the config file for v0.6.
 // Needs to be changed out manually for updating each release.
-var configFilePath = "https://raw.githubusercontent.com/kubeflow/kubeflow/v0.6-branch/bootstrap/config/kfctl_k8s_istio.0.6.2.yaml"
 
-const gauntletFile = "MLGauntlet"
+const (
+	masterConfigFile = "https://raw.githubusercontent.com/kubeflow/manifests/master/kfdef/kfctl_k8s_istio.yaml"
+	v06ConfigFile    = "https://raw.githubusercontent.com/kubeflow/kubeflow/v0.6-branch/bootstrap/config/kfctl_k8s_istio.0.6.2.yaml"
+)
+
+const gauntletFile = "kubeflow-context.yaml"
 const gitIgnoreFileContents = "secrets/"
 
 // InstallKubeflow connects to the Kubeflow coordinator to bootstrap and install Kubeflow on KinD
-func InstallKubeflow(clusterName string, size string) error {
+func InstallKubeflow(clusterName string, version string) error {
 	// Initialize a Kubeflow application
-	err := KindKfApply(clusterName, size)
+	err := KfApply(clusterName, version)
 	if err != nil {
 		log.Printf("Error creating a kubeflow app: %v", err)
 		return err
@@ -29,69 +30,24 @@ func InstallKubeflow(clusterName string, size string) error {
 	return nil
 }
 
-// KindKfApply borrows code from github.com/kubeflow/bootstrap to start the Kubeflow install process
-func KindKfApply(appName string, size string) error {
+// KfApply borrows code from github.com/kubeflow/bootstrap to start the install Kubeflow
+func KfApply(appName string, version string) error {
 	log.Println("Kubeflow init...")
-	// Get config from static file
-	configFile, err := manifests.Asset("manifests/kfctl_k8s_kind.yaml")
-	if err != nil {
-		log.Errorln("Error loading KfDef for Kubeflow")
-		return err
+	configFilePath := ""
+	if version == "latest" {
+		configFilePath = masterConfigFile
+	} else {
+		configFilePath = v06ConfigFile
 	}
-	err = ioutil.WriteFile("/tmp/kind-config.yaml", configFile, 0700)
-	if err != nil {
-		return err
-	}
-	if size == "small" {
-		configFilePath = "/tmp/kind-config.yaml"
-	}
-
 	// Create a kf-app config with the app name from CLI and internal config
-	kfDef, err := kfdefsv3.LoadKFDefFromURI(configFilePath)
+	kfApp, err := coordinator.BuildKfAppFromURI(configFilePath)
 	if err != nil {
-		log.Printf("Unable to create KfDef from config file: %v", err)
+		log.Errorf("unable to build KfApp: %v", err)
 	}
-	if kfDef.Name != "" {
-		log.Warnf("Overriding KfDef.Spec.Name; old value %v; new value %v", kfDef.Name, appName)
-	}
-	kfDef.Spec.AppDir = CreateAppDir(appName)
-	log.Infof("App directory name: %v", kfDef.Spec.AppDir)
-	cfgFilePath, err := coordinator.CreateKfAppCfgFile(kfDef)
+	err = kfApp.Apply(kftypes.ALL)
 	if err != nil {
+		log.Errorf("Unable to apply resources for KfApp", err)
 		return err
-	}
-
-	log.Printf("Syncing Cache")
-	err = kfDef.SyncCache()
-	if err != nil {
-		log.Errorf("Failed to synchronize the cache; error: %v", err)
-		return err
-	}
-	// Save app.yaml because we need to preserve information about the cache.
-	if err := kfDef.WriteToFile(cfgFilePath); err != nil {
-		log.Errorf("Failed to save KfDef to %v; error %v", cfgFilePath, err)
-		return err
-	}
-	log.Warnf("Saved configfile as kfdef in path: %v", cfgFilePath)
-
-	// Load KfApp for Generate and Apply
-	KfApp, KfErr := coordinator.LoadKfAppCfgFile(cfgFilePath)
-	if KfErr != nil {
-		log.Printf("Error loading KfApp from configfilepath: %v", KfErr)
-	}
-	// Once init is done, we generate and apply subsequently
-	kfResource := kftypes.K8S
-	log.Println("Kubeflow Generate...")
-	generateErr := KfApp.Generate(kfResource)
-	if generateErr != nil {
-		log.Println("Unable to generate resources for KfApp", generateErr)
-		return generateErr
-	}
-	log.Println("Kubeflow Apply...")
-	applyErr := KfApp.Apply(kfResource)
-	if applyErr != nil {
-		log.Println("Unable to apply resources for KfApp", applyErr)
-		return applyErr
 	}
 	return nil
 }

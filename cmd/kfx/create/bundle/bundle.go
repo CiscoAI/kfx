@@ -3,7 +3,7 @@ package bundle
 import (
 	"errors"
 
-	"github.com/CiscoAI/create-kf-app/pkg/bootstrap"
+	"github.com/CiscoAI/kfx/pkg/bootstrap"
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 )

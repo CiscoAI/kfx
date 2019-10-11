@@ -1,7 +1,7 @@
 package bootstrap
 
 import (
-	"github.com/CiscoAI/create-kf-app/pkg/util"
+	"github.com/CiscoAI/kfx/pkg/util"
 )
 
 // Inspired by Tilt and kubefwd's port forwarding implementation
@@ -13,6 +13,15 @@ import (
 // MLAPortForwardShell shells out to kubectl to do the port-forward into the MLA app
 func MLAPortForwardShell() error {
 	err := util.KubectlPortForward("mlanywhere", "kubeflow", "5000", "5000")
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+// KFPortForwardShell shells out to kubectl to do the port-forward into the Kubeflow Central Dashboard
+func KFPortForwardShell() error {
+	err := util.KubectlPortForward("istio-ingressgateway", "istio-system", "8080", "80")
 	if err != nil {
 		return err
 	}

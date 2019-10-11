@@ -15,8 +15,8 @@
 package delete
 
 import (
-	"github.com/CiscoAI/create-kf-app/kfx/cmd/delete/cluster"
-	"github.com/CiscoAI/create-kf-app/kfx/cmd/delete/kf"
+	"github.com/CiscoAI/kfx/cmd/kfx/delete/cluster"
+	"github.com/CiscoAI/kfx/cmd/kfx/delete/kf"
 	"github.com/spf13/cobra"
 )
 

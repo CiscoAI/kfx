@@ -1,19 +1,21 @@
 package ui
 
 import (
+	"github.com/CiscoAI/kfx/cmd/kfx/ui/mla"
 	"github.com/spf13/cobra"
 )
 
-// NewCommand returns a new cobra.Command for version
+// NewCommand returns a new cobra.Command for ui
 func NewCommand() *cobra.Command {
 	cmd := &cobra.Command{
 		Args:  cobra.NoArgs,
 		Use:   "ui",
-		Short: "Connects to the Kubeflow UI",
-		Long:  "Connects to the Kubeflow UI",
+		Short: "Connects to the UI",
+		Long:  "Connects to the UI.",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			return nil
 		},
 	}
+	cmd.AddCommand(mla.NewCommand())
 	return cmd
 }

@@ -4,8 +4,8 @@ import (
 	"io/ioutil"
 	"time"
 
-	"github.com/CiscoAI/create-kf-app/pkg/manifests"
-	kfutil "github.com/CiscoAI/create-kf-app/pkg/util"
+	"github.com/CiscoAI/kfx/pkg/manifests"
+	kfutil "github.com/CiscoAI/kfx/pkg/util"
 	"github.com/pkg/errors"
 	log "github.com/sirupsen/logrus"
 	v1 "k8s.io/api/core/v1"

@@ -17,8 +17,8 @@ package kf
 import (
 	"errors"
 
-	"github.com/CiscoAI/create-kf-app/pkg/bootstrap"
-	"github.com/CiscoAI/create-kf-app/pkg/fetch"
+	"github.com/CiscoAI/kfx/pkg/bootstrap"
+	"github.com/CiscoAI/kfx/pkg/fetch"
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 )
@@ -26,6 +26,7 @@ import (
 type flagpole struct {
 	Name        string
 	Size        string
+	Version     string
 	PipelineURI string
 }
 
@@ -46,6 +47,7 @@ func NewCommand() *cobra.Command {
 	// Follows t-shirt sizes - small, large (not implemented: medium)
 	// small is a very minimal kubeflow - pipelines, a notebook
 	// large is the full fledged deployment with istio et all.
+	cmd.Flags().StringVarP(&flags.Version, "version", "v", "v.0.6.0", "Version of Kubeflow to be installed.")
 	cmd.Flags().StringVar(&flags.Size, "size", "large", "Number of components to be installed.")
 	cmd.Flags().StringVar(&flags.PipelineURI, "pipeline", "", "URI for fetching the Pipeline")
 	return cmd
@@ -54,7 +56,7 @@ func NewCommand() *cobra.Command {
 func runE(flags *flagpole, cmd *cobra.Command, args []string) error {
 	appName := flags.Name
 	pipelineURI := flags.PipelineURI
-
+	version := flags.Version
 	// Bootstrap ML project repo
 	if pipelineURI == "" {
 		isDone := bootstrap.CreateProjectStructure(appName)
@@ -72,7 +74,7 @@ func runE(flags *flagpole, cmd *cobra.Command, args []string) error {
 		log.Infof("Bootstrapped with project %v with pipeline %v", appName, pipelineURI)
 	}
 	appDir := appName + "/.gitops/kfctl"
-	err := bootstrap.InstallKubeflow(appDir, flags.Size)
+	err := bootstrap.InstallKubeflow(appDir, version)
 	if err != nil {
 		log.Errorf("%v", err)
 		return err

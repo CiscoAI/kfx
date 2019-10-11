@@ -17,13 +17,13 @@ package main
 import (
 	"os"
 
-	"github.com/CiscoAI/create-kf-app/kfx/cmd/build"
-	"github.com/CiscoAI/create-kf-app/kfx/cmd/create"
-	"github.com/CiscoAI/create-kf-app/kfx/cmd/delete"
-	"github.com/CiscoAI/create-kf-app/kfx/cmd/install"
-	"github.com/CiscoAI/create-kf-app/kfx/cmd/run"
-	"github.com/CiscoAI/create-kf-app/kfx/cmd/ui"
-	"github.com/CiscoAI/create-kf-app/kfx/cmd/version"
+	"github.com/CiscoAI/kfx/cmd/kfx/build"
+	"github.com/CiscoAI/kfx/cmd/kfx/create"
+	"github.com/CiscoAI/kfx/cmd/kfx/delete"
+	"github.com/CiscoAI/kfx/cmd/kfx/install"
+	"github.com/CiscoAI/kfx/cmd/kfx/run"
+	"github.com/CiscoAI/kfx/cmd/kfx/ui"
+	"github.com/CiscoAI/kfx/cmd/kfx/version"
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 	logutil "sigs.k8s.io/kind/pkg/log"
@@ -42,10 +42,11 @@ func NewCommand() *cobra.Command {
 	cmd := &cobra.Command{
 		Args:  cobra.NoArgs,
 		Use:   "kfx",
-		Short: "kfx is a tool for building, running ML applications",
+		Short: "kfx is a productivity tool Kubeflow on-premise",
 		Long: `
-	Builds a ML App with a pipeline of choice for local development.
-	Builds and Runs components that are commonly used like pre-process, train, tensorboard, serving and inference.`,
+	Installs Kubeflow to a Kubernetes cluster.
+	Creates a KinD cluster.
+	`,
 		PersistentPreRunE: func(cmd *cobra.Command, args []string) error {
 			return runE(flags, cmd, args)
 		},

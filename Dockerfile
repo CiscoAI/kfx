@@ -9,8 +9,8 @@ ENV PATH /go/bin:/usr/local/go/bin:${PATH}
 ENV GO111MODULE=on
 ENV GOPATH=/go
 
-RUN mkdir -p ${GOPATH}/src/github.com/CiscoAI/create-kf-app
-WORKDIR ${GOPATH}/src/github.com/CiscoAI/create-kf-app
+RUN mkdir -p ${GOPATH}/src/github.com/CiscoAI/kfx
+WORKDIR ${GOPATH}/src/github.com/CiscoAI/kfx
 
 # Download dependencies first to optimize Docker caching.
 COPY go.mod .
@@ -29,6 +29,6 @@ WORKDIR /opt/kubeflow
 
 FROM barebones_base as kfctl
 
-COPY --from=create-kf-app /go/src/github.com/CiscoAI/create-kf-app/bin/create-kf-app-linux /usr/local/bin
+COPY --from=create-kf-app /go/src/github.com/CiscoAI/kfx/bin/create-kf-app-linux /usr/local/bin
 
 CMD ["/bin/bash", "-c", "trap : TERM INT; sleep infinity & wait"]

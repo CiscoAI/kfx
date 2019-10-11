@@ -1,3 +1,3 @@
-# create-kf-app init
+# kfx create
 
 ## Usage guide for the `init` command
