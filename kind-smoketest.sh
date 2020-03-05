@@ -27,8 +27,9 @@ main() {
     export PATH=kfx:${PATH}
     chmod +x kfx
     kfx install kf
-    # TODO: invoke your tests here
-    # teardown will happen automatically on exit
+
+    # TODO: invoke noteboks, pipelines, operator tests here
+    # teardown will happen automatically on exit; GitHub Actions does this for us
 }
 
 main
