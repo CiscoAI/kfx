@@ -17,17 +17,12 @@ package main
 import (
 	"os"
 
-	"github.com/CiscoAI/kfx/cmd/kfx/build"
-	"github.com/CiscoAI/kfx/cmd/kfx/get"
-	"github.com/CiscoAI/kfx/cmd/kfx/create"
 	"github.com/CiscoAI/kfx/cmd/kfx/delete"
 	"github.com/CiscoAI/kfx/cmd/kfx/install"
-	"github.com/CiscoAI/kfx/cmd/kfx/run"
 	"github.com/CiscoAI/kfx/cmd/kfx/ui"
 	"github.com/CiscoAI/kfx/cmd/kfx/version"
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
-	logutil "sigs.k8s.io/kind/pkg/log"
 )
 
 const defaultLevel = log.WarnLevel
@@ -54,12 +49,8 @@ func NewCommand() *cobra.Command {
 		SilenceUsage: true,
 		Version:      version.Version,
 	}
-	cmd.AddCommand(create.NewCommand())
-	cmd.AddCommand(get.NewCommand())
 	cmd.AddCommand(delete.NewCommand())
 	cmd.AddCommand(install.NewCommand())
-	cmd.AddCommand(build.NewCommand())
-	cmd.AddCommand(run.NewCommand())
 	cmd.AddCommand(ui.NewCommand())
 	cmd.AddCommand(version.NewCommand())
 	return cmd
@@ -89,10 +80,7 @@ func main() {
 	log.SetFormatter(&log.TextFormatter{
 		FullTimestamp:   true,
 		TimestampFormat: "15:04:05",
-		// we force colors because this only forces over the isTerminal check
-		// and this will not be accurately checkable later on when we wrap
-		// the logger output with our logutil.StatusFriendlyWriter
-		ForceColors: logutil.IsTerminal(log.StandardLogger().Out),
+		ForceColors:     true,
 	})
 	if err := Run(); err != nil {
 		os.Exit(1)

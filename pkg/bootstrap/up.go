@@ -1,10 +1,13 @@
 package bootstrap
 
 import (
+	"io/ioutil"
 	"os"
 
-	kftypes "github.com/kubeflow/kubeflow/bootstrap/v3/pkg/apis/apps"
-	"github.com/kubeflow/kubeflow/bootstrap/v3/pkg/kfapp/coordinator"
+	"github.com/CiscoAI/kfx/pkg/manifests"
+
+	kftypes "github.com/kubeflow/kfctl/v3/pkg/apis/apps"
+	"github.com/kubeflow/kfctl/v3/pkg/kfapp/coordinator"
 	log "github.com/sirupsen/logrus"
 )
 
@@ -13,6 +16,7 @@ import (
 
 const (
 	masterConfigFile = "https://raw.githubusercontent.com/kubeflow/manifests/master/kfdef/kfctl_k8s_istio.yaml"
+	v1ConfigFile     = "https://raw.githubusercontent.com/kubeflow/kubeflow/v1.0-branch/bootstrap/config/kfctl_k8s_istio.1.0.0.yaml"
 	v06ConfigFile    = "https://raw.githubusercontent.com/kubeflow/kubeflow/v0.6-branch/bootstrap/config/kfctl_k8s_istio.0.6.2.yaml"
 )
 
@@ -33,20 +37,27 @@ func InstallKubeflow(clusterName string, version string) error {
 // KfApply borrows code from github.com/kubeflow/bootstrap to start the install Kubeflow
 func KfApply(appName string, version string) error {
 	log.Println("Kubeflow init...")
-	configFilePath := ""
-	if version == "latest" {
-		configFilePath = masterConfigFile
-	} else {
-		configFilePath = v06ConfigFile
+	cwd, err := os.Getwd()
+	if err != nil {
+		log.Printf("Error getting current working directory: %v", err)
+	}
+	configFilePath := cwd + "/kfctl_k8s_istio.yaml"
+	configFileBytes, err := manifests.Asset("manifests/kfctl_k8s_istio_v1.0.0.yaml")
+	if err != nil {
+		log.Errorf("unable to build KfApp: %v", err)
+	}
+	err = ioutil.WriteFile(configFilePath, configFileBytes, 0700)
+	if err != nil {
+		return err
 	}
 	// Create a kf-app config with the app name from CLI and internal config
-	kfApp, err := coordinator.BuildKfAppFromURI(configFilePath)
+	kfApp, err := coordinator.NewLoadKfAppFromURI(configFilePath)
 	if err != nil {
 		log.Errorf("unable to build KfApp: %v", err)
 	}
 	err = kfApp.Apply(kftypes.ALL)
 	if err != nil {
-		log.Errorf("Unable to apply resources for KfApp", err)
+		log.Errorf("Unable to apply resources for KfApp: %v", err)
 		return err
 	}
 	return nil
@@ -153,12 +164,6 @@ func CreateFile(filePath string) error {
 		}
 		defer file.Close()
 	}
-	return nil
-}
-
-// CreateSymlink for connecting local appDir to the Jupyter notebook
-func CreateSymlink(appDir string) error {
-
 	return nil
 }
 

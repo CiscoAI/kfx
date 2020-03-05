@@ -47,8 +47,7 @@ func NewCommand() *cobra.Command {
 	// Follows t-shirt sizes - small, large (not implemented: medium)
 	// small is a very minimal kubeflow - pipelines, a notebook
 	// large is the full fledged deployment with istio et all.
-	cmd.Flags().StringVarP(&flags.Version, "version", "v", "v.0.6.0", "Version of Kubeflow to be installed.")
-	cmd.Flags().StringVar(&flags.Size, "size", "large", "Number of components to be installed.")
+	cmd.Flags().StringVarP(&flags.Version, "version", "v", "v1.0.0", "Version of Kubeflow to be installed.")
 	cmd.Flags().StringVar(&flags.PipelineURI, "pipeline", "", "URI for fetching the Pipeline")
 	return cmd
 }

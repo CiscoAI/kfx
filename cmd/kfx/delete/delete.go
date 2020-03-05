@@ -15,7 +15,6 @@
 package delete
 
 import (
-	"github.com/CiscoAI/kfx/cmd/kfx/delete/cluster"
 	"github.com/CiscoAI/kfx/cmd/kfx/delete/kf"
 	"github.com/spf13/cobra"
 )
@@ -34,7 +33,6 @@ func NewCommand() *cobra.Command {
 			return nil
 		},
 	}
-	cmd.AddCommand(cluster.NewCommand())
 	cmd.AddCommand(kf.NewCommand())
 	return cmd
 }
