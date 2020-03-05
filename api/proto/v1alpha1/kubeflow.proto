@@ -1,0 +1,6 @@
+syntax = "proto3";
+package kfx.v1alpha1;
+
+message Applications {
+    repeated string app = 1;
+}

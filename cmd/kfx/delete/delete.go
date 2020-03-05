@@ -27,8 +27,8 @@ func NewCommand() *cobra.Command {
 	cmd := &cobra.Command{
 		Args:  cobra.NoArgs,
 		Use:   "delete",
-		Short: "Deletes the cluster / kf application created",
-		Long:  "Deletes the cluster / KF application created",
+		Short: "Deletes the KF application created",
+		Long:  "Deletes the KF application created",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			return nil
 		},

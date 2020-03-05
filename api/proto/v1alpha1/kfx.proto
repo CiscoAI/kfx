@@ -1,0 +1,10 @@
+syntax = "proto3";
+package kfx.v1alpha1;
+
+import "proto/v1alpha1/doctor.proto";
+import "proto/v1alpha1/kubeflow.proto";
+
+message KFCluster {
+    string name = 1;
+    kfx.v1alpha1.Applications applications = 2;
+}
