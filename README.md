@@ -2,17 +2,37 @@
 
 kfx is a productivity tool for Kubeflow on-premise.
 
-🚀 Local ML development with Kubeflow.
+🚀 on-premise ML development with Kubeflow.
 
 ## What is kfx?
 
-- A tool to perform common Kubeflow tasks from the CLI.
+- A tool to perform common Kubeflow tasks.
 - Opinionated way of using Kubeflow.
-- In-built [KinD](#whykind) support.
 
 ### kfx CLI - Presto
 
-A very, very fast way to use Kubeflow.
+A very fast way to use Kubeflow.
+
+#### Who is this for?
+
+- People who prefer CLIs over UIs.
+- ML Engineers, Data Scientists.
+
+### kfx UI - Allegro
+
+A UI-centric way to use Kubeflow.
+
+#### Who is this for?
+
+- People who prefer UIs over CLIs.
+- ML Engineers, Data Scientists.
+
+### kfx API - Andante
+
+A API-centric way to use Kubeflow.
+
+- People who want to extend kfx for custom tasks.
+- ML Engineers.
 
 ## Installation and usage
 
