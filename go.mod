@@ -11,6 +11,8 @@ require (
 )
 
 replace (
+	github.com/kubeflow/kfctl/v3 => github.com/kubeflow/kfctl/v3 v3.0.0-20200305002438-f5f4778a9f09	// pinning kfctl to this commit
+
 	git.apache.org/thrift.git => github.com/apache/thrift v0.0.0-20180902110319-2566ecd5d999
 	github.com/Sirupsen/logrus => github.com/sirupsen/logrus v1.0.5
 	github.com/go-openapi/jsonpointer => github.com/go-openapi/jsonpointer v0.17.0

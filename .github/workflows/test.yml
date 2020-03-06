@@ -17,8 +17,11 @@ jobs:
       run: |
         kubectl cluster-info
         kubectl get pods -n kube-syste
-
-    - name: Test kfx
-      run: |
-        chmod +x kind-smoketest.sh
+    
+    - uses: actions/setup-go@v2-beta
+      with:
+    - run: |
+        go version
+        cp -r . ${GOPATH}/src/github.com/CiscoAI/kfx/
         ./kind-smoketest.sh
+
