@@ -1,2 +1,12 @@
 syntax = "proto3";
 package kfx.v1alpha1;
+
+
+message Diagnostic {
+    bool failed = 1;
+}
+
+message Component {
+    string name = 1;
+    string k8s_resource_type = 2;
+}
