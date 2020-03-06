@@ -6,10 +6,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
-      with:
-        fetch-depth: 1
-        path: go/src/github.com/CiscoAI/kfx
-    
+
     - uses: engineerd/setup-kind@v0.3.0
       with:
         name: "kfx-k8s"
@@ -25,11 +22,6 @@ jobs:
       with:
         go-version: '^1.13.1'
       env:
-        GOPATH:  /home/runner/work/CiscoAI/go
+        GOPATH: /home/runner/work/kfx/kfx
     - run: |
-        go version
-        export GOPATH=/go
-        mkdir -p ${GOPATH}/src/github.com/CiscoAI/kfx/
-        cp -r . ${GOPATH}/src/github.com/CiscoAI/kfx/
-        cd ${GOPATH}/src/github.com/CiscoAI/kfx/
         ./kind-smoketest.sh
