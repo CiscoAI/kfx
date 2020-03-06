@@ -23,7 +23,7 @@ jobs:
         go-version: '^1.13.1'
     - run: |
         go version
-        export GOPATH=go
+        export GOPATH=/go
         mkdir -p ${GOPATH}/src/github.com/CiscoAI/kfx/
         cp -r . ${GOPATH}/src/github.com/CiscoAI/kfx/
         cd ${GOPATH}/src/github.com/CiscoAI/kfx/
