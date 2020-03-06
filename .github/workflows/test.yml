@@ -19,7 +19,6 @@ jobs:
         kubectl get pods -n kube-syste
     
     - uses: actions/setup-go@v2-beta
-      with:
     - run: |
         go version
         cp -r . ${GOPATH}/src/github.com/CiscoAI/kfx/
