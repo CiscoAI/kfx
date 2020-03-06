@@ -24,8 +24,7 @@ main() {
     install_kubectl
     install_kfx
     mv bin/kfx-linux kfx
-    export PATH=kfx:${PATH}
-    chmod +x kfx
+    chmod +x ./kfx
     kfx install kf
 
     # TODO: invoke noteboks, pipelines, operator tests here
