@@ -25,7 +25,7 @@ main() {
     install_kfx
     mv bin/kfx-linux kfx
     chmod +x ./kfx
-    kfx install kf
+    ./kfx install kf
 
     # TODO: invoke noteboks, pipelines, operator tests here
     # teardown will happen automatically on exit; GitHub Actions does this for us
