@@ -6,5 +6,6 @@ import "proto/v1alpha1/kubeflow.proto";
 
 message KFCluster {
     string name = 1;
+    kfx.v1alpha1.Diagnostic diagnostic = 2;
     kfx.v1alpha1.Applications applications = 2;
 }

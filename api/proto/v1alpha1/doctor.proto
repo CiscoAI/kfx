@@ -1,12 +1,15 @@
 syntax = "proto3";
 package kfx.v1alpha1;
 
-
+// overall diagnostic information is held in this protobuf
 message Diagnostic {
     bool failed = 1;
+    repeated Component components = 2;
 }
 
+// components specific information is held here
+// Components could be API Server, Storage Class...
 message Component {
-    string name = 1;
-    string k8s_resource_type = 2;
+    string type = 2;
+    bool failed = 3;
 }
