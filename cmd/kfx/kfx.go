@@ -17,6 +17,7 @@ package main
 import (
 	"os"
 
+	"github.com/CiscoAI/kfx/cmd/kfx/check"
 	"github.com/CiscoAI/kfx/cmd/kfx/delete"
 	"github.com/CiscoAI/kfx/cmd/kfx/install"
 	"github.com/CiscoAI/kfx/cmd/kfx/ui"
@@ -40,8 +41,7 @@ func NewCommand() *cobra.Command {
 		Use:   "kfx",
 		Short: "kfx is a productivity tool Kubeflow on-premise",
 		Long: `
-	Installs Kubeflow to a Kubernetes cluster.
-	Creates a KinD cluster.
+kfx is a productivity tool for Kubeflow on-premise.
 	`,
 		PersistentPreRunE: func(cmd *cobra.Command, args []string) error {
 			return runE(flags, cmd, args)
@@ -52,6 +52,7 @@ func NewCommand() *cobra.Command {
 	cmd.AddCommand(delete.NewCommand())
 	cmd.AddCommand(install.NewCommand())
 	cmd.AddCommand(ui.NewCommand())
+	cmd.AddCommand(check.NewCommand())
 	cmd.AddCommand(version.NewCommand())
 	return cmd
 }

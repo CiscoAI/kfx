@@ -4,12 +4,24 @@ kfx is a productivity tool for Kubeflow on-premise.
 
 🚀 on-premise ML development with Kubeflow.
 
-## What is kfx?
+Table of Contents
+=================
+
+   * [What is kfx?](#what-is-kfx)
+      * [kfx CLI](#kfx-cli)
+      * [kfx API](#kfx-api)
+      * [kfx UI](#kfx-ui)
+   * [Installation](#installation)
+   * [Questions/Feedback](#faq)
+
+---
+
+## <a name="what-is-kfx"></a>What is kfx?
 
 - A tool to perform common Kubeflow tasks.
 - Opinionated way of using Kubeflow.
 
-### kfx CLI - Presto
+### <a name="kfx-cli"></a> kfx CLI - Presto
 
 A very fast way to use Kubeflow.
 
@@ -18,7 +30,15 @@ A very fast way to use Kubeflow.
 - People who prefer CLIs over UIs.
 - ML Engineers, Data Scientists.
 
-### kfx UI - Allegro
+### <a name="kfx-api"></a> kfx API - Andante
+
+A API-centric way to use Kubeflow.
+
+- People who want to extend kfx for custom tasks.
+- ML Engineers.
+
+
+### <a name="kfx-ui"></a> kfx UI - Allegro
 
 A UI-centric way to use Kubeflow.
 
@@ -27,14 +47,7 @@ A UI-centric way to use Kubeflow.
 - People who prefer UIs over CLIs.
 - ML Engineers, Data Scientists.
 
-### kfx API - Andante
-
-A API-centric way to use Kubeflow.
-
-- People who want to extend kfx for custom tasks.
-- ML Engineers.
-
-## Installation and usage
+## <a name="installation"></a> Installation and usage
 
 ### Requirements
 
@@ -55,8 +68,7 @@ Download the binaries:
 - MacOS 64-bit
 `curl https://storage.cloud.google.com/kfx-releases/v0.1.0-alpha/kfx-darwin > kfx && chmod +x kfx`
 
-Download the latest release :arrow_up: :arrow_up:
-Add the binary to your $PATH.
+Download the latest release. Add the binary to your $PATH.
 
 ```bash
    kfx install kf --name CiscoAI --pipeline github.com/CiscoAI/bolts-classifier-pipeline
@@ -64,6 +76,6 @@ Add the binary to your $PATH.
 
 And you're ready to Kubeflow !
 
-## Questions / Feedback
+## <a name="faq"></a> Questions / Feedback
 
 Current maintainer [@swiftdiaries](github.com/swiftdiaries) - feel free to reach out if you have any questions or discuss Kubeflow on-prem.

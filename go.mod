@@ -4,21 +4,22 @@ go 1.13
 
 require (
 	github.com/go-bindata/go-bindata v3.1.2+incompatible // indirect
+	github.com/golang/protobuf v1.3.2
 	github.com/hashicorp/go-getter v1.0.2
 	github.com/kubeflow/kfctl/v3 v3.0.0-20200305002438-f5f4778a9f09
+	github.com/prometheus/common v0.7.0
 	github.com/sirupsen/logrus v1.4.2
 	github.com/spf13/cobra v0.0.5
 )
 
 replace (
-	github.com/kubeflow/kfctl/v3 => github.com/kubeflow/kfctl/v3 v3.0.0-20200305002438-f5f4778a9f09	// pinning kfctl to this commit
-
 	git.apache.org/thrift.git => github.com/apache/thrift v0.0.0-20180902110319-2566ecd5d999
 	github.com/Sirupsen/logrus => github.com/sirupsen/logrus v1.0.5
 	github.com/go-openapi/jsonpointer => github.com/go-openapi/jsonpointer v0.17.0
 	github.com/go-openapi/jsonreference => github.com/go-openapi/jsonreference v0.17.0
 	github.com/go-openapi/spec => github.com/go-openapi/spec v0.18.0
 	github.com/go-openapi/swag => github.com/go-openapi/swag v0.17.0
+	github.com/kubeflow/kfctl/v3 => github.com/kubeflow/kfctl/v3 v3.0.0-20200305002438-f5f4778a9f09 // pinning kfctl to this commit
 	github.com/mitchellh/go-homedir => github.com/mitchellh/go-homedir v1.0.0
 	github.com/otiai10/copy => github.com/otiai10/copy v1.0.2
 	github.com/otiai10/mint => github.com/otiai10/mint v1.3.0

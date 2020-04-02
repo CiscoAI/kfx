@@ -1,0 +1,167 @@
+package bootstrap
+
+import (
+	"io/ioutil"
+	"os"
+
+	"github.com/CiscoAI/kfx/pkg/manifests"
+
+	kftypes "github.com/kubeflow/kfctl/v3/pkg/apis/apps"
+	"github.com/kubeflow/kfctl/v3/pkg/kfapp/coordinator"
+	log "github.com/sirupsen/logrus"
+)
+
+// the config file for v0.6.
+// Needs to be changed out manually for updating each release.
+
+const (
+	masterConfigFile = "https://raw.githubusercontent.com/kubeflow/manifests/master/kfdef/kfctl_k8s_istio.yaml"
+	v1ConfigFile     = "https://raw.githubusercontent.com/kubeflow/kubeflow/v1.0-branch/bootstrap/config/kfctl_k8s_istio.1.0.0.yaml"
+)
+
+// InstallKubeflow connects to the Kubeflow coordinator to bootstrap and install Kubeflow on KinD
+func InstallKubeflow(clusterName string, version string) error {
+	// Initialize a Kubeflow application
+	err := KfApply(clusterName, version)
+	if err != nil {
+		log.Printf("Error creating a kubeflow app: %v", err)
+		return err
+	}
+	return nil
+}
+
+// KfApply borrows code from github.com/kubeflow/bootstrap to start the install Kubeflow
+func KfApply(appName string, version string) error {
+	log.Println("Kubeflow init...")
+	cwd, err := os.Getwd()
+	if err != nil {
+		log.Printf("Error getting current working directory: %v", err)
+	}
+	configFilePath := cwd + "/kfctl_k8s_istio.yaml"
+	configFileBytes, err := manifests.Asset("manifests/kfctl_k8s_istio_v1.0.0.yaml")
+	if err != nil {
+		log.Errorf("unable to build KfApp: %v", err)
+	}
+	err = ioutil.WriteFile(configFilePath, configFileBytes, 0700)
+	if err != nil {
+		return err
+	}
+	// Create a kf-app config with the app name from CLI and internal config
+	kfApp, err := coordinator.NewLoadKfAppFromURI(configFilePath)
+	if err != nil {
+		log.Errorf("unable to build KfApp: %v", err)
+	}
+	err = kfApp.Apply(kftypes.ALL)
+	if err != nil {
+		log.Errorf("Unable to apply resources for KfApp: %v", err)
+		return err
+	}
+	return nil
+}
+
+// CreateAppDir creates a project directory for installing components
+func CreateAppDir(appName string) string {
+	cwd, err := os.Getwd()
+	if err != nil {
+		log.Printf("Error getting current working directory: %v", err)
+	}
+	destinationPath := cwd + "/" + appName + "/"
+	appdirErr := CreateDirFromURI(destinationPath)
+	if appdirErr != nil {
+		return ""
+	}
+	return destinationPath
+}
+
+// CreateDirFromURI is common utility function to create a directory given a path
+func CreateDirFromURI(dirPath string) error {
+	dirErr := os.MkdirAll(dirPath, os.ModePerm)
+	if dirErr != nil {
+		log.Errorf("Could not create directory: %v", dirErr)
+		return dirErr
+	}
+	return nil
+}
+
+// CreateProjectStructure bootstraps a common workflow structure with
+// data download, training, tensorboard, sering, inference components and
+// strings them together in a single workflow
+func CreateProjectStructure(appName string) bool {
+	cwd, err := os.Getwd()
+	if err != nil {
+		log.Printf("Error getting current working directory: %v", err)
+		return false
+	}
+	appDir := cwd + "/" + appName
+	_, err = os.Stat(appDir)
+	if os.IsNotExist(err) {
+		_ = CreateAppDir(appName)
+	}
+	if err != nil {
+		log.Errorf("Error creating app directory: %v", err)
+		return false
+	}
+	componentPath := "/app/components"
+	err = CreateDirFromURI(appDir + "/notebooks")
+	err = CreateDirFromURI(appDir + componentPath + "/data-download")
+	err = CreateDirFromURI(appDir + componentPath + "/train")
+	err = CreateDirFromURI(appDir + componentPath + "/tensorboard")
+	err = CreateDirFromURI(appDir + componentPath + "/serving")
+	err = CreateDirFromURI(appDir + componentPath + "/inference")
+	if err != nil {
+		log.Errorf("Error creating project directory: %v", err)
+		return false
+	}
+	return true
+}
+
+// WriteToFile writes a string to a file.
+// Used to write to gitignore
+func WriteToFile(filePath string, fileContent string) error {
+	file, err := os.OpenFile(filePath, os.O_RDWR, 0644)
+	if err != nil {
+		return err
+	}
+	defer file.Close()
+
+	_, err = file.WriteString(fileContent)
+	if err != nil {
+		return err
+	}
+
+	err = file.Sync()
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// CreateFile bootstraps the ML app directory with a config file.
+func CreateFile(filePath string) error {
+	_, err := os.Stat(filePath)
+	// create file if not exists
+	if os.IsNotExist(err) {
+		file, err := os.Create(filePath)
+		if err != nil {
+			return err
+		}
+		defer file.Close()
+	}
+	return nil
+}
+
+// CreateDefaultProfile uses the profile-controller to create a user-profile
+func CreateDefaultProfile() error {
+
+	return nil
+}
+
+// CreateDefaultNotebook uses the Kubeflow Notebook Controller to create an user notebook
+func CreateDefaultNotebook(notebookName string) error {
+
+	// objectName := v1meta1.ObjectMeta{Name: notebookName}
+	// dynamicClient, _ := dynamic.NewForConfig(config)
+
+	return nil
+}

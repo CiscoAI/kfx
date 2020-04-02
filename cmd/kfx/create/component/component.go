@@ -1,23 +1,19 @@
-package version
+package component
 
 import (
-	"fmt"
-
+	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 )
-
-// Version is the kfx CLI version
-const Version = "v0.1-alpha"
 
 // NewCommand returns a new cobra.Command for version
 func NewCommand() *cobra.Command {
 	cmd := &cobra.Command{
 		Args:  cobra.NoArgs,
-		Use:   "version",
-		Short: "prints the kfx CLI version",
-		Long:  "prints the kfx CLI version",
+		Use:   "components",
+		Short: "scaffold a new component for Cisco KF app",
+		Long:  "scaffold a new component for Cisco KF app",
 		RunE: func(cmd *cobra.Command, args []string) error {
-			fmt.Println(Version)
+			log.Info("`create component` invoked")
 			return nil
 		},
 	}
