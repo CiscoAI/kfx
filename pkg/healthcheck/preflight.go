@@ -3,6 +3,7 @@ package healthcheck
 import (
 	"context"
 	"fmt"
+	"strconv"
 
 	log "github.com/sirupsen/logrus"
 	"k8s.io/client-go/kubernetes"
@@ -24,8 +25,8 @@ const (
 )
 
 const (
-	MaximumKubernetesMajorVersion = "1"
-	MaximumKubernetesMinorVersion = "15"
+	MaximumKubernetesMajorVersion int = 1
+	MaximumKubernetesMinorVersion int = 15
 )
 
 type checker struct {
@@ -58,9 +59,11 @@ func CheckK8sVersion(kubeconfig string) (bool, error) {
 	}
 	serverVersion, err := clientset.Discovery().ServerVersion()
 	log.Infof("Kubernetes Server Version: %v", serverVersion)
-	if serverVersion.Minor != MaximumKubernetesMinorVersion {
-		log.Errorf("Server version: v.%s.%s but expected server version: v.%s.%s", serverVersion.Major, serverVersion.Minor, MaximumKubernetesMajorVersion, MaximumKubernetesMinorVersion)
-		return false, nil
+	if serverMinorVersion, err := strconv.Atoi(serverVersion.Minor); err == nil {
+		if serverMinorVersion > MaximumKubernetesMinorVersion {
+			log.Errorf("Server version: v.%s.%s.x but expected server version: v.%d.%d.x", serverVersion.Major, serverVersion.Minor, MaximumKubernetesMajorVersion, MaximumKubernetesMinorVersion)
+			return false, nil
+		}
 	}
 	return true, nil
 }
