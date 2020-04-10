@@ -7,7 +7,7 @@ import (
 )
 
 // Version is the kfx CLI version
-const Version = "v0.1-alpha"
+const Version = "v0.1.0-alpha"
 
 // NewCommand returns a new cobra.Command for version
 func NewCommand() *cobra.Command {

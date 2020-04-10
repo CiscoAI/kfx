@@ -15,9 +15,6 @@
 package mla
 
 import (
-	"fmt"
-
-	"github.com/CiscoAI/kfx/pkg/bootstrap"
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 )
@@ -38,9 +35,6 @@ func NewCommand() *cobra.Command {
 
 func runE(cmd *cobra.Command, args []string) error {
 	log.Infof("Launching MLAnywhere UI..")
-	err := bootstrap.MLAPortForwardShell()
-	if err != nil {
-		return fmt.Errorf("error connecting to UI: %v", err)
-	}
+	log.Warn("Not yet implemented!")
 	return nil
 }

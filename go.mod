@@ -3,13 +3,12 @@ module github.com/CiscoAI/kfx
 go 1.13
 
 require (
-	github.com/go-bindata/go-bindata v3.1.2+incompatible // indirect
 	github.com/golang/protobuf v1.3.2
 	github.com/hashicorp/go-getter v1.0.2
 	github.com/kubeflow/kfctl/v3 v3.0.0-20200305002438-f5f4778a9f09
-	github.com/prometheus/common v0.7.0
 	github.com/sirupsen/logrus v1.4.2
 	github.com/spf13/cobra v0.0.5
+	k8s.io/client-go v12.0.0+incompatible
 )
 
 replace (

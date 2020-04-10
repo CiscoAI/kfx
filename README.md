@@ -62,16 +62,15 @@ If you have Docker and kubectl installed on your machine, you are 💯 to go
 
 Download the binaries:
 
-- Linux 64-bit
-`curl https://storage.cloud.google.com/kfx-releases/v0.1.0-alpha/kfx-linux > kfx && chmod +x kfx`
-
-- MacOS 64-bit
-`curl https://storage.cloud.google.com/kfx-releases/v0.1.0-alpha/kfx-darwin > kfx && chmod +x kfx`
-
-Download the latest release. Add the binary to your $PATH.
+```bash
+export KFX_VERSION=v0.1.0-alpha
+export OPSYS=linux # or darwin
+curl hhttp://storage.googleapis.com/kfx-releases/${KFX_VERSION}/${OPSYS}/kfx > kfx && chmod +x kfx
+```
+Add the binary to your $PATH.
 
 ```bash
-   kfx install kf --name CiscoAI --pipeline github.com/CiscoAI/bolts-classifier-pipeline
+kfx install kf --name starter-pack
 ```
 
 And you're ready to Kubeflow !
