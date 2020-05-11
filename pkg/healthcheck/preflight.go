@@ -2,8 +2,8 @@ package healthcheck
 
 import (
 	"context"
-	"fmt"
 	"strconv"
+	"strings"
 
 	log "github.com/sirupsen/logrus"
 	"k8s.io/client-go/kubernetes"
@@ -43,27 +43,44 @@ type CheckResult struct {
 	Err         error
 }
 
-func CheckK8sVersion(kubeconfig string) (bool, error) {
-	if kubeconfig == "" {
-		log.Error("Error in kubeconfig")
-		return false, fmt.Errorf("kubeconfig is not valid")
-	}
-	config, err := clientcmd.BuildConfigFromFlags("", kubeconfig)
+// CheckK8sVersion validates kubernetes target version
+func CheckK8sVersion() (bool, error) {
+
+	loadingRules := clientcmd.NewDefaultClientConfigLoadingRules()
+	configOverrides := &clientcmd.ConfigOverrides{}
+	kubeConfig := clientcmd.NewNonInteractiveDeferredLoadingClientConfig(loadingRules, configOverrides)
+	config, err := kubeConfig.ClientConfig()
+	clientset, err := kubernetes.NewForConfig(config)
+
 	if err != nil {
-		log.Errorf("error building client-config from kubeconfig: %v", err)
+		log.Errorf("Error building clientset from client-config: %v", err)
 	}
 
-	clientset, err := kubernetes.NewForConfig(config)
-	if err != nil {
-		log.Errorf("error building clientset from client-config: %v", err)
-	}
 	serverVersion, err := clientset.Discovery().ServerVersion()
-	log.Infof("Kubernetes Server Version: %v", serverVersion)
-	if serverMinorVersion, err := strconv.Atoi(serverVersion.Minor); err == nil {
-		if serverMinorVersion > MaximumKubernetesMinorVersion {
-			log.Errorf("Server version: v.%s.%s.x but expected server version: v.%d.%d.x", serverVersion.Major, serverVersion.Minor, MaximumKubernetesMajorVersion, MaximumKubernetesMinorVersion)
-			return false, nil
-		}
+	if err != nil {
+		log.Errorf("Error fetching server version: %v", err)
+	}
+
+	serverMajorVersion, err := strconv.Atoi(serverVersion.Major)
+	if err != nil {
+		log.Errorf("Error converting server version: %v", err)
+		return false, err
+	}
+
+	serverMinorVersion, err := strconv.Atoi(strings.Trim(serverVersion.Minor, "+"))
+	if err != nil {
+		log.Errorf("Error converting server version: %v", err)
+		return false, err
+	}
+
+	if serverMajorVersion > MaximumKubernetesMajorVersion {
+		log.Errorf("Server version: v.%s.%s.x but expected server version: v.%d.%d.x", serverVersion.Major, serverVersion.Minor, MaximumKubernetesMajorVersion, MaximumKubernetesMinorVersion)
+		return false, nil
+	} else if serverMajorVersion == MaximumKubernetesMajorVersion && serverMinorVersion > MaximumKubernetesMinorVersion {
+		log.Errorf("Server version: v.%s.%s.x but expected server version: v.%d.%d.x", serverVersion.Major, serverVersion.Minor, MaximumKubernetesMajorVersion, MaximumKubernetesMinorVersion)
+		return false, nil
+	} else {
+		log.Infof("Kubernetes server version %v is compatible.", serverVersion)
 	}
 	return true, nil
 }

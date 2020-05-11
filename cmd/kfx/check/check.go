@@ -2,7 +2,6 @@ package check
 
 import (
 	"fmt"
-	"os"
 
 	"github.com/CiscoAI/kfx/pkg/healthcheck"
 	log "github.com/sirupsen/logrus"
@@ -34,8 +33,7 @@ func NewCommand() *cobra.Command {
 
 func preflightChecks(cmd *cobra.Command, args []string) error {
 	log.Info("Running preflight checks")
-	kubeconfig := os.Getenv("KUBECONFIG")
-	versionCheck, err := healthcheck.CheckK8sVersion(kubeconfig)
+	versionCheck, err := healthcheck.CheckK8sVersion()
 	if err != nil {
 		return err
 	}
