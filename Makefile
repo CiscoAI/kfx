@@ -19,4 +19,4 @@ go-install:
 
 build-kfx:
 	GO111MODULE=on GOOS=linux GOARCH=amd64 go build -o bin/kfx-linux cmd/kfx/kfx.go
-	GO111MODULE=on GOOS=darwin GOARCH=amd64 go build -o bin/kfx-darwin cmd/kfx/kfx.go	
+	GO111MODULE=on GOOS=darwin GOARCH=386 go build -o bin/kfx-darwin cmd/kfx/kfx.go
